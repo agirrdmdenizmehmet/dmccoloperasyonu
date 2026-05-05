@@ -45,7 +45,191 @@
             text-align: center;
         }
 
-        #main-menu, #name-input-screen { background: #1a1a1a; }
+        #main-menu, #name-input-screen, #settings-screen, #lobby-screen, #create-room-screen { background: #1a1a1a; }
+
+        #main-menu {
+            overflow: hidden;
+            justify-content: space-between;
+            padding: 26px 24px 20px;
+            box-sizing: border-box;
+            background:
+                linear-gradient(to bottom, #301b18 0%, #7c3b22 34%, #d97837 35%, #f1a953 58%, #c97733 59%, #8f4628 100%);
+        }
+
+        #main-menu::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, transparent 0 18px, rgba(255,255,255,0.08) 18px 20px, transparent 20px 42px),
+                linear-gradient(to bottom, transparent 0 72%, rgba(80, 39, 24, 0.45) 72% 100%);
+            background-size: 42px 100%, 100% 100%;
+            opacity: 0.55;
+            pointer-events: none;
+        }
+
+
+        .menu-dune {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 34%;
+            background:
+                linear-gradient(165deg, transparent 0 28%, #e38a3c 29% 46%, transparent 47%),
+                linear-gradient(18deg, transparent 0 38%, #b75f2e 39% 55%, transparent 56%),
+                #d7803a;
+            border-top: 6px solid rgba(84, 40, 24, 0.55);
+        }
+
+        .menu-cactus {
+            position: absolute;
+            bottom: 25%;
+            width: 12px;
+            height: 54px;
+            background: #277047;
+            border: 3px solid #173f2c;
+            box-shadow: 18px 14px 0 -3px #277047, 18px 14px 0 0 #173f2c, -16px 22px 0 -3px #277047, -16px 22px 0 0 #173f2c;
+        }
+        .menu-cactus.left { left: 9%; }
+        .menu-cactus.right { right: 13%; transform: scale(0.75); bottom: 20%; }
+
+        .menu-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: minmax(220px, 1fr) minmax(180px, 260px);
+            align-items: end;
+            gap: 28px;
+            width: min(780px, 94vw);
+            flex: 1;
+            padding-top: 86px;
+            box-sizing: border-box;
+        }
+
+        .menu-title-block { text-align: left; }
+        .menu-title {
+            margin: 0;
+            color: var(--ui-gold);
+            font-size: 34px;
+            line-height: 1.28;
+            text-shadow: 4px 4px #3e1e18;
+        }
+        .menu-subtitle {
+            margin-top: 16px;
+            color: #fff5c7;
+            font-size: 7px;
+            line-height: 1.8;
+            text-shadow: 2px 2px #3e1e18;
+        }
+
+        .menu-bot-wall {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 18px;
+            width: min(760px, 94vw);
+            pointer-events: none;
+        }
+        .menu-bot-frame {
+            width: 78px;
+            text-align: center;
+        }
+        .menu-bot-frame img {
+            width: 68px;
+            height: 68px;
+            object-fit: contain;
+            image-rendering: pixelated;
+            display: block;
+            margin: 0 auto 7px;
+            filter: drop-shadow(5px 5px 0 rgba(42, 22, 16, 0.72));
+        }
+        .menu-bot-frame span {
+            display: block;
+            color: #fff5c7;
+            font-size: 6px;
+            line-height: 1.35;
+            text-shadow: 2px 2px #1f1411;
+        }
+        .menu-character-wrap {
+            position: relative;
+            height: 260px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .menu-character-shadow {
+            position: absolute;
+            bottom: 18px;
+            width: 132px;
+            height: 24px;
+            background: rgba(47, 26, 18, 0.45);
+            border-radius: 50%;
+        }
+        #menu-character {
+            position: relative;
+            z-index: 2;
+            width: 192px;
+            height: 192px;
+            object-fit: contain;
+            image-rendering: pixelated;
+            filter: drop-shadow(8px 8px 0 rgba(47, 26, 18, 0.55));
+            animation: menuHeroBob 1.2s steps(2) infinite;
+        }
+
+        .menu-credits {
+            position: absolute;
+            left: 14px;
+            bottom: 10px;
+            z-index: 4;
+            color: #fff2ba;
+            font-size: 9px;
+            line-height: 1.65;
+            text-align: left;
+            text-shadow: 2px 2px #3e1e18;
+            pointer-events: none;
+        }
+        .menu-actions {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            width: min(760px, 94vw);
+        }
+        #main-menu .menu-btn {
+            width: 230px;
+            margin: 0;
+            background: #fff6d6;
+            box-shadow: 5px 5px 0 #4c251d;
+        }
+        #main-menu .menu-btn.multi { background: #3157a8; color: #fff; }
+
+        @keyframes menuHeroBob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @media (max-width: 720px) {
+            #main-menu { padding: 14px 12px 12px; }
+            .menu-content { grid-template-columns: 1fr 150px; gap: 10px; }
+            .menu-title { font-size: 20px; }
+            .menu-subtitle { font-size: 5px; }
+            .menu-bot-wall { top: 8px; gap: 7px; width: 96vw; }
+            .menu-bot-frame { width: 43px; }
+            .menu-bot-frame img { width: 36px; height: 36px; margin-bottom: 3px; }
+            .menu-bot-frame span { font-size: 3px; }
+            .menu-credits { font-size: 6px; left: 8px; bottom: 6px; }
+            .menu-character-wrap { height: 150px; }
+            #menu-character { width: 124px; height: 124px; }
+            #main-menu .menu-btn { width: 168px; padding: 11px 8px; font-size: 6px; }
+        }
 
         .menu-btn {
             width: 280px; padding: 15px; margin: 10px;
@@ -56,12 +240,19 @@
         .menu-btn:hover { transform: scale(1.05); background: var(--ui-gold); }
         .menu-btn.multi { background: #3f51b5; color: white; border-color: #fff; }
 
-        .name-input {
+        .name-input, .settings-slider {
             padding: 15px; margin-bottom: 20px; width: 250px;
             background: white; border: 4px solid var(--ui-dark);
             font-family: 'Press Start 2P', cursive; font-size: 10px;
             text-align: center; outline: none; box-sizing: border-box;
         }
+        .settings-slider { cursor: pointer; padding: 0; }
+
+        /* Lobi Stilleri */
+        .room-list { max-height: 180px; overflow-y: auto; background: #222; border: 2px solid #fff; padding: 10px; text-align: left; margin-bottom: 15px; width: 320px; }
+        .room-item { padding: 10px; border-bottom: 1px solid #444; display: flex; justify-content: space-between; cursor: pointer; color: #fff; font-size: 8px; }
+        .room-item:hover { background: #333; }
+        .lobby-inputs { display: flex; gap: 10px; margin-bottom: 10px; justify-content: center; }
 
         #ui-overlay {
             position: absolute; top: 0; left: 0;
@@ -106,13 +297,10 @@
             display: flex; align-items: center; gap: 5px;
         }
 
-        #fs-btn {
-            position: absolute; top: 15px; right: 15px;
-            width: 45px; height: 45px;
-            background: rgba(0,0,0,0.6);
-            color: #fff; font-size: 18px; border: 2px solid #fff;
-            display: flex; align-items: center; justify-content: center;
-            pointer-events: auto; cursor: pointer; border-radius: 4px;
+        #ammo-ui {
+            position: absolute; top: 80px; left: 15px;
+            font-size: 8px; color: #fff; text-shadow: 1px 1px #000;
+            display: flex; align-items: center; gap: 5px;
         }
 
         #joy-zone {
@@ -165,6 +353,11 @@
 </head>
 <body>
 
+<!-- SES ELEMENTİ (Sadece Müzik İçin) -->
+<audio id="bg-music" loop>
+    <source src="https://www.image2url.com/r2/default/audio/1777984718763-3664adf2-4643-4fb6-83c4-3695f314bc5a.mp3" type="audio/mpeg">
+</audio>
+
 <div id="loading-screen">
     <div style="margin-bottom: 10px;">DENİZ MEHMET: OPERASYON</div>
     <div id="load-count">YÜKLENİYOR...</div>
@@ -180,1549 +373,105 @@
 <div id="game-container">
     <canvas id="gameCanvas"></canvas>
 
+    <!-- ANA MENÜ -->
     <div id="main-menu" class="overlay">
-        <h1 style="font-size: 18px; color: var(--ui-gold); margin-bottom: 30px; text-shadow: 3px 3px #000;">ÇÖL OPERASYONU</h1>
-        <button class="menu-btn" onclick="startGame('single')">TEK OYUNCULU</button>
-        <button class="menu-btn multi" id="multi-btn" onclick="startGame('multi')">ÇOK OYUNCULU (ONLINE)</button>
+        <div class="menu-cactus left"></div>
+        <div class="menu-cactus right"></div>
+        <div class="menu-dune"></div>
+
+        <div class="menu-bot-wall" aria-label="Karşı duvardaki karakter yüzleri">
+            <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/1dOyDgggITjnrOXNtgNkBRUpFS7I-S3NK" alt="Koray"><span>KORAY</span></div>
+            <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/1LA1tv0ifY6X3qOK3u3ALRI_2Vu8f2USw" alt="Egehan"><span>EGEHAN</span></div>
+            <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/18d4GvAGyY8Xax5e2zYEtiMsSUdESSU2u" alt="Hüseyin"><span>HÜSEYİN</span></div>
+            <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/1EvdSZplwRuKjiPyfHoIvaw3CfcBfK_Iz" alt="Burak"><span>BURAK</span></div>
+            <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/13MphXLBZyzuN2jpcfZ6V2Mrs2d9dE5No" alt="Taha"><span>TAHA</span></div>
+            <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/1E-GvE7N3SHS9Px5ZGi-7nkiVGrEew7we" alt="Boss 08"><span>BOSS 08</span></div>
+            <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/11fWAlqJyGGGHj3v6dRjWY_Lc6zJ4ZeZj" alt="Herhangi Bir Adam"><span>HERHANGİ<br>BİR ADAM</span></div>
+        </div>
+
+        <div class="menu-content">
+            <div class="menu-title-block">
+                <h1 class="menu-title">ÇÖL<br>OPERASYONU</h1>
+                <div class="menu-subtitle">NE MUTLU TÜRKÜM DİYENE!!!</div>
+            </div>
+            <div class="menu-character-wrap">
+                <div class="menu-character-shadow"></div>
+                <img id="menu-character" src="https://lh3.googleusercontent.com/d/1BDDrXOkIySIIRKHcUDAIWuLZLO9RVilB" alt="Ana Karakter">
+            </div>
+        </div>
+
+        <div class="menu-credits">YAZILIM VE TASARIM:<br>TAHA &amp; EGEHAN</div>
+
+        <div class="menu-actions">
+            <button class="menu-btn" onclick="startGame('single')">TEK OYUNCULU</button>
+            <button class="menu-btn multi" id="multi-btn" onclick="startGame('multi')">ÇOK OYUNCULU</button>
+            <button class="menu-btn" onclick="openSettings()">AYARLAR</button>
+        </div>
+    </div>
+    <!-- AYARLAR EKRANI -->
+    <div id="settings-screen" class="overlay" style="display:none;">
+        <h1 style="font-size: 14px; color: var(--ui-gold); margin-bottom: 20px;">AYARLAR</h1>
+        <label style="font-size: 8px;">MÜZİK SEVİYESİ</label>
+        <input type="range" id="volume-control" class="settings-slider" min="0" max="1" step="0.1" value="0.5" oninput="updateVolume(this.value)">
+        <button class="menu-btn" onclick="closeSettings()">GERİ</button>
     </div>
 
+    <!-- İSİM GİRİŞ EKRANI -->
     <div id="name-input-screen" class="overlay" style="display:none;">
         <h1 style="font-size: 14px; color: var(--ui-gold); margin-bottom: 20px; text-shadow: 2px 2px #000;">İSMİNİ GİR</h1>
         <input type="text" id="player-name-input" class="name-input" maxlength="10" placeholder="İSİM...">
-        <button class="menu-btn" onclick="joinMultiplayer()">BAĞLAN</button>
+        <button class="menu-btn" onclick="goToLobby()">İLERİ</button>
         <button class="menu-btn" style="background: #f44336; color: white; border-color: white;" onclick="backToMenu()">İPTAL</button>
     </div>
 
-    <div id="ui-overlay">
+    <!-- LOBİ EKRANI -->
+    <div id="lobby-screen" class="overlay" style="display:none;">
+        <h1 style="font-size: 14px; color: var(--ui-gold); margin-bottom: 10px;">LOBİ</h1>
+        <div class="lobby-inputs">
+            <input type="text" id="room-code-input" class="name-input" style="width: 140px; margin:0;" maxlength="5" placeholder="KOD...">
+            <button class="menu-btn" style="width:140px; margin:0;" onclick="joinByCode()">KODLA GİR</button>
+        </div>
+        <div class="room-list" id="room-list-container">
+            <!-- Odalar JS ile buraya eklenecek -->
+        </div>
+        <div style="display:flex; gap:10px;">
+            <button class="menu-btn" style="width: 155px; margin: 0;" onclick="showCreateRoom()">ODA KUR</button>
+            <button class="menu-btn" style="width: 155px; margin: 0; background: #f44336; color: white; border-color: white;" onclick="backToMenuFromLobby()">GERİ</button>
+        </div>
+    </div>
+
+    <!-- ODA KURMA EKRANI -->
+    <div id="create-room-screen" class="overlay" style="display:none;">
+        <h1 style="font-size: 14px; color: var(--ui-gold); margin-bottom: 20px;">ODA AYARLARI</h1>
         
+        <label style="font-size: 8px; margin-bottom: 5px; display:block;">MAKSİMUM KİŞİ</label>
+        <select id="room-max-players" class="name-input" style="width: 250px; margin-bottom: 10px;">
+            <option value="2">2 KİŞİ</option>
+            <option value="3">3 KİŞİ</option>
+            <option value="4" selected>4 KİŞİ</option>
+            <option value="5">5 KİŞİ</option>
+            <option value="6">6 KİŞİ</option>
+            <option value="7">7 KİŞİ</option>
+            <option value="8">8 KİŞİ</option>
+            <option value="9">9 KİŞİ</option>
+            <option value="10">10 KİŞİ</option>
+        </select>
+
+        <label style="font-size: 8px; margin-bottom: 5px; display:block;">GİZLİLİK</label>
+        <select id="room-privacy" class="name-input" style="width: 250px; margin-bottom: 20px;">
+            <option value="public">AÇIK (LİSTELENİR)</option>
+            <option value="private">GİZLİ (KOD İLE)</option>
+        </select>
+
+        <button class="menu-btn" onclick="confirmCreateRoom()">OLUŞTUR VE GİR</button>
+        <button class="menu-btn" style="background: #f44336; color: white; border-color: white;" onclick="backToLobby()">İPTAL</button>
+    </div>
+
+    <!-- OYUN UI -->
+    <div id="ui-overlay">
         <div id="boss-bar-container">
             <div id="boss-bar-fill-container"><div id="boss-bar-fill"></div></div>
             <img id="boss-bar-bg" src="" alt="Boss Bar">
         </div>
-
         <div class="hud-stats">
-            <div>CAN: <span id="hp">100</span>% | SEV: <span id="lvl">1</span> | SKOR: <span id="score">0</span></div>
-            <div id="wave-name">DALGA 1</div>
-        </div>
-        <div id="xp-bar-container"><div id="xp-fill"></div></div>
-        
-        <div id="bomb-ui">BOMBA: <span id="bomb-count" style="color: var(--ui-gold);">0</span></div>
-
-        <div id="fs-btn">⛶</div>
-        <div id="joy-zone"><div id="knob"></div></div>
-        <div style="position:absolute; bottom:15px; left:15px; font-size: 6px; color:#fff;" id="online-status">Çevrimdışı</div>
-
-        <div class="action-btns">
-            <div class="btn" id="switch-btn">SİLAH (Q)</div>
-            <div class="btn" id="bomb-btn"><div class="cd-overlay" id="bomb-cd-overlay"></div>BOMBA (U)</div>
-            <div class="btn" id="aoe-btn"><div class="cd-overlay" id="aoe-cd-overlay"></div>ALAN (R)</div>
-            <div class="btn" id="fire-btn">ATEŞ (SP)</div>
-        </div>
-    </div>
-
-    <div id="game-over" class="overlay" style="display:none;">
-        <h1 style="color: red; font-size: 16px;">GÖREV BAŞARISIZ</h1>
-        <button class="menu-btn" onclick="location.reload()">TEKRAR DENE</button>
-    </div>
-    
-    <div id="msg-box"></div>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, onSnapshot, collection, initializeFirestore, updateDoc, deleteDoc, increment, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // --- FIREBASE AYARLARI ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2E77b2u5h9xMX6O5hX6ZhtL-2ZDr1lVU",
-      authDomain: "dmc-col-coperasyonu.firebaseapp.com",
-      projectId: "dmc-col-coperasyonu",
-      storageBucket: "dmc-col-coperasyonu.firebasestorage.app",
-      messagingSenderId: "869416064151",
-      appId: "1:869416064151:web:717c648b6b87ed9f72c5d2",
-      measurementId: "G-291QQER019"
-    };
-
-    const appId = "dmc-col-coperasyonu";
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    
-    const db = initializeFirestore(app, {
-        experimentalForceLongPolling: true,
-        useFetchStreams: false
-    });
-
-    let currentUser = null;
-
-    // --- OYUN PARAMETRELERİ ---
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    let width, height, player, camera = {x:0, y:0, shake:0};
-    let enemies = [], bullets = [], gems = [], deco = [], items = [], scorches = [];
-    let otherPlayers = {}, gameActive = false;
-    let wave = 1, score = 0, level = 1, xp = 0, nextXp = 300;
-    let joyInput = {x:0, y:0}, joyTouchId = null, keys = {};
-    let aoeCooldown = 0, isFiring = false;
-    let gameMode = 'single', isHost = false, spawning = false, hostCheckInterval = null;
-    let playerName = "OYUNCU"; 
-    const MAX_AOE_CD = 1800, ISO_W = 64, ISO_H = 32;
-
-    // BOMBA SİSTEMİ PARAMETRELERİ
-    let playerBombCount = 0;
-    let bombCooldown = 0; 
-    let placedBombs = []; 
-    let bigBossKills = 0; 
-
-    const IDS = {
-        p_idle: ['1BDDrXOkIySIIRKHcUDAIWuLZLO9RVilB', '1Tex9DKqMhpfaOJLIG0K8XcGmwOqheVXV', '1Kd9rAvrQopR3bZD-jHp9V9yjPOAuYtF7', '1vz2d2gEPGVpbqLF2nz2LYKqLngCrtiWn', '1ayNk56yRPom1SsJ8xCOJBPoX5Jt_Sz6h', '1s2rQIxcyJfme8rHw2QdwM8SSGQFCthUm'],
-        p_walk: ['15YmM3yjrbay0RmPCkZQXiSXFovlS0q5d', '11oEPeT_tcs5Su3Lljd5UDtmDyuEkqUYi', '17ycmYo0tWeWV7N3gVHkZPOaM9WD-q0PP', '1nWAKtVnzNvgrshG02m4xWeZRbhjwFqHE', '1L0hUNwWsAPhkbRQI-4Zrzrjce9rCBJbp', '1TO6y5Nlbxe6zJXPahcacgOTE2BLpPN1j'],
-        p_shoot: '1xWJgokbAvfriq9hNFoivB7aetojARwUE',
-        p_death: ['1obX3UCAMeikCGr3VHH0QdYr47weAoowL', '1DXs9TD8dzCFYEzwojXfLXj-Z5FtQMHFH', '1ZbTrZ_RYBF4LQFFF0I5UiYnADFxFXb_f'],
-        ak_idle: ['1v6EtFg47gMKTkHQ0ZLj5AD2ixCj84ST0', '15mVw5yPEmqteHfCfvfNAtsFC9mnisPmP'],
-        ak_walk: ['1EFjvXSZdPA5-6emHCI99oDicQvjZRs5I', '1P_XqySrc092tSzgksHdyUv_Xqtue4mMg', '1dCyKbNcS7de9tYYD96FBF_948Qa_1Amb'],
-        ak_shoot: '1GpW-qGKZahJpZ3ztiQlQ3OMx4hlm2LNI',
-        ak_death: ['1sDJcUv9Rf-fMAc_voTqP_523eZabGoQc', '1Dm7VbFb5SemX3usNPjVkRW6t16tlA0PG', '1n14Bq27WIeoI8NWNfp4UppH4B2snfEWC'],
-        switch: ['1Z-D2f_e_A3lB5Hi7zur8CEbCDHkF7B-1', '1Muc_-KavLnRePdLM9MfZOzZLDjAu57Iz', '18gI3pkhSJDUK95Snsmb4aaJ68K98PSzp', '1cVt7vEkkhxaYGvS8nrGN6j1G7Bc4MuHe'],
-        ak_icon: '17C0TnWg80ANPnrqloh5FpkNIAuhiD5Cd',
-        bomb: '1ecY2RNs15iDNKL5wGuPiT4yPfkK7jdrk', 
-        boss1: '1E-GvE7N3SHS9Px5ZGi-7nkiVGrEew7we', 
-        boss2: '11fWAlqJyGGGHj3v6dRjWY_Lc6zJ4ZeZj', 
-        boss_bar: '17O80eMEnGBOu89oMkrQ1pnTbHRw9qG0l', 
-        enemies: [{id:'1dOyDgggITjnrOXNtgNkBRUpFS7I-S3NK', n:'Koray'}, {id:'1LA1tv0ifY6X3qOK3u3ALRI_2Vu8f2USw', n:'Egehan'}, {id:'18d4GvAGyY8Xax5e2zYEtiMsSUdESSU2u', n:'Hüseyin'}, {id:'1EvdSZplwRuKjiPyfHoIvaw3CfcBfK_Iz', n:'Burak'}, {id:'13MphXLBZyzuN2jpcfZ6V2Mrs2d9dE5No', n:'Taha'}]
-    };
-
-    const assets = { p_idle:[], p_walk:[], p_shoot:null, p_death:[], ak_idle:[], ak_walk:[], ak_shoot:null, ak_death:[], switch:[], icon:null, bomb:null, boss1:null, boss2:null, boss_bar:null, enemies:[], total:39, loaded:0 };
-
-    class Character {
-        constructor(x, y, isP=false, type='normal', id=null) {
-            this.x=x; this.y=y; this.isP=isP; this.type=type; this.id=id;
-            this.hp=100; this.maxHp=100; this.size=1.0; this.speed=isP?0.06:0.035;
-            this.weapon='PISTOL'; this.hasAK=false; this.isSw=false; this.swFr=0;
-            this.shT=0; this.dFr=0; this.anim=0; this.face=1; this.isWalking=false;
-            this.head = assets.enemies[Math.floor(Math.random()*assets.enemies.length)];
-            
-            if(type==='boss-block') { this.hp=800; this.maxHp=800; this.size=3; }
-            if(type==='boss-head') { this.hp=1500; this.maxHp=1500; this.size=8.5; }
-        }
-        draw(remote=null) {
-            if(remote) { 
-                this.x += (remote.x - this.x) * 0.15; 
-                this.y += (remote.y - this.y) * 0.15; 
-                this.face = remote.face; 
-                this.weapon = remote.weapon; 
-                this.hp = remote.hp; 
-                this.isWalking = remote.isWalking; 
-                this.shT = remote.shT; 
-                this.maxHp = remote.maxHp || this.maxHp;
-            }
-            const p = worldToScreen(this.x, this.y);
-            this.anim += 0.12;
-            const s = this.size;
-            
-            ctx.fillStyle = 'rgba(0,0,0,0.15)'; ctx.beginPath(); ctx.ellipse(p.x, p.y, 14*s, 7*s, 0, 0, Math.PI*2); ctx.fill();
-            
-            if (this.isP || this.type==='remote') {
-                let img = null;
-                if(this.hp<=0) {
-                    const set = (this.weapon==='AK')?assets.ak_death:assets.p_death;
-                    this.dFr+=0.03; img = set[Math.min(Math.floor(this.dFr), set.length-1)];
-                } else if(this.isSw) {
-                    img = assets.switch[Math.min(3, Math.floor(this.swFr))];
-                    this.swFr+=0.08; if(this.swFr>=4) { this.weapon=this.swT; this.isSw=false; }
-                } else if(this.shT>0) {
-                    img = (this.weapon==='AK')?assets.ak_shoot:assets.p_shoot;
-                    if(!remote) this.shT--;
-                } else {
-                    const set = (this.weapon==='AK')?(this.isWalking?assets.ak_walk:assets.ak_idle):(this.isWalking?assets.p_walk:assets.p_idle);
-                    img = set[Math.floor(this.anim % set.length)];
-                }
-                
-                if(img) { ctx.save(); ctx.translate(p.x, p.y); if(this.face===-1) ctx.scale(-1,1); ctx.drawImage(img, -32*s, -60*s, 64*s, 64*s); ctx.restore(); }
-                
-                let dName = this.isP ? playerName : (remote && remote.name ? remote.name : "OYUNCU");
-                ctx.fillStyle = '#fff'; ctx.font = '5px "Press Start 2P"'; ctx.textAlign = 'center';
-                ctx.shadowColor = "black"; ctx.shadowBlur = 3;
-                ctx.fillText(dName.toUpperCase(), p.x, p.y - 70); ctx.shadowBlur = 0; 
-                
-            } else {
-                if (this.type === 'boss-head') {
-                    const bob = Math.sin(this.anim)*5;
-                    let h = assets.boss2;
-                    if(h) ctx.drawImage(h, p.x-16*s, p.y-34*s+bob, 32*s, 32*s);
-                } else {
-                    const bob = Math.sin(this.anim)*3;
-                    ctx.fillStyle = '#7f0000'; ctx.fillRect(p.x-12*s, p.y-32*s+bob, 24*s, 32*s);
-                    let h = (this.type === 'boss-block') ? assets.boss1 : (this.head ? this.head.img : null);
-                    if(h) ctx.drawImage(h, p.x-14*s, p.y-50*s+bob, 28*s, 28*s);
-                }
-            }
-            
-            if(this.hp>0 && this.type !== 'boss-head') {
-                const barW = 30*s; ctx.fillStyle='#333'; ctx.fillRect(p.x-barW/2, p.y-55*s, barW, 4);
-                ctx.fillStyle=(this.hp/this.maxHp>0.3)?'#4caf50':'#f44336'; ctx.fillRect(p.x-barW/2, p.y-55*s, Math.max(0, this.hp/this.maxHp)*barW, 4);
-            }
-        }
-    }
-
-    class Gem {
-        constructor(x,y,v){this.x=x;this.y=y;this.v=v;this.a=Math.random()*6;this.m=false;}
-        draw(){
-            if(Math.sqrt((player.x-this.x)**2+(player.y-this.y)**2)<6)this.m=true;
-            if(this.m){const an=Math.atan2(player.y-this.y,player.x-this.x);this.x+=Math.cos(an)*0.07;this.y+=Math.sin(an)*0.07;}
-            this.a+=0.1; const p=worldToScreen(this.x,this.y); ctx.fillStyle=this.v>100?'#ffeb3b':'#00e5ff';
-            ctx.beginPath();ctx.moveTo(p.x,p.y-8+Math.sin(this.a)*4);ctx.lineTo(p.x+5,p.y);ctx.lineTo(p.x,p.y+8);ctx.lineTo(p.x-5,p.y);ctx.fill();
-        }
-    }
-
-    function worldToScreen(wx, wy) {
-        let sx = (wx - wy) * (ISO_W / 2) + width / 2 - (camera.x - camera.y) * (ISO_W / 2);
-        let sy = (wx + wy) * (ISO_H / 2) + height / 2 - (camera.x + camera.y) * (ISO_H / 2);
-        if(camera.shake > 0) { sx += (Math.random()-0.5)*camera.shake; sy += (Math.random()-0.5)*camera.shake; }
-        return { x: sx, y: sy };
-    }
-
-    function updateBombUI() {
-        document.getElementById('bomb-count').innerText = playerBombCount;
-    }
-
-    function killEnemyLocal(e, index) {
-        score += 50; 
-        gems.push(new Gem(e.x, e.y, e.type === 'boss-head' ? 500 : 30)); 
-
-        let pCount = gameMode === 'multi' ? (Object.keys(otherPlayers).length + 1) : 1;
-
-        if (e.type === 'boss-block') {
-            items.push({ x: e.x, y: e.y, type: 'BOMB', anim: 0, draw: drawBombItem });
-        } else if (e.type === 'boss-head') {
-            if (bigBossKills === 0) {
-                for(let i=0; i<pCount; i++) {
-                    items.push({ x: e.x + (Math.random()*4-2), y: e.y + (Math.random()*4-2), type: 'AK', anim: 0, draw: drawAK });
-                }
-            } else {
-                let bombDropCount = Math.floor(Math.random() * 2) + 1; 
-                for(let i=0; i<bombDropCount; i++) {
-                    items.push({ x: e.x + (Math.random()*4-2), y: e.y + (Math.random()*4-2), type: 'BOMB', anim: 0, draw: drawBombItem });
-                }
-            }
-            bigBossKills++; 
-        }
-        
-        enemies.splice(index, 1);
-    }
-
-    function spawnWave() {
-        spawning = true;
-        setTimeout(() => { spawning = false; }, 3000); 
-
-        if (gameMode === 'multi' && !isHost) return;
-
-        let newEnemies = [];
-        let pCount = gameMode === 'multi' ? (Object.keys(otherPlayers).length + 1) : 1;
-
-        if(wave%5===0) {
-            let e = new Character(player.x+15, player.y+15, false, 'boss-head');
-            e.id = 'e_' + Math.random().toString(36).substr(2,9);
-            e.maxHp = 1500 * pCount; 
-            e.hp = e.maxHp;
-            newEnemies.push(e);
-        }
-        else {
-            if(wave%3===0) {
-                for(let i=0; i<pCount; i++) {
-                    let e = new Character(player.x-15 + (Math.random()*10-5), player.y-15 + (Math.random()*10-5), false, 'boss-block');
-                    e.id = 'e_' + Math.random().toString(36).substr(2,9);
-                    newEnemies.push(e);
-                }
-            }
-            let baseCount = 4 + Math.floor(wave*0.6);
-            let totalBot = baseCount * pCount;
-            for(let i=0; i<totalBot; i++){
-                const a=Math.random()*Math.PI*2; 
-                let e = new Character(player.x+Math.cos(a)*25, player.y+Math.sin(a)*25);
-                e.id = 'e_' + Math.random().toString(36).substr(2,9);
-                newEnemies.push(e);
-            }
-        }
-
-        if (gameMode === 'multi') {
-            newEnemies.forEach(e => {
-                setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'enemies', e.id), {
-                    x: e.x, y: e.y, hp: e.hp, maxHp: e.maxHp, type: e.type, size: e.size, speed: e.speed, headIndex: assets.enemies.indexOf(e.head)
-                }).catch(err => console.error("Bot Spawn Error:", err));
-            });
-        } else {
-            enemies.push(...newEnemies);
-        }
-        document.getElementById('wave-name').innerText=`DALGA ${wave}`;
-    }
-
-    async function syncOnline() {
-        if(!currentUser) return;
-        try {
-            const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'players', currentUser.uid);
-            await setDoc(pRef, { 
-                x:player.x, y:player.y, hp:player.hp, face:player.face, 
-                weapon:player.weapon, isWalking:player.isWalking, shT:player.shT, ts:Date.now(),
-                name: playerName
-            }, { merge: true });
-        } catch(e) { }
-    }
-
-    const forceCleanupPlayer = () => {
-        if (currentUser && gameMode === 'multi') {
-            const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'players', currentUser.uid);
-            deleteDoc(pRef).catch(() => {});
-        }
-    };
-    
-    window.addEventListener('beforeunload', forceCleanupPlayer);
-    window.addEventListener('pagehide', forceCleanupPlayer);
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden') forceCleanupPlayer();
-        else if (document.visibilityState === 'visible' && gameMode === 'multi') syncOnline();
-    });
-
-    function setupHostSystem() {
-        const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', 'main');
-        
-        onSnapshot(roomRef, (snap) => {
-            const data = snap.data();
-            const now = Date.now();
-
-            if (!data || now - data.lastPing > 8000) { 
-                isHost = true;
-                wave = 1; 
-                document.getElementById('wave-name').innerText=`DALGA ${wave}`;
-
-                gems = []; items = []; bullets = []; enemies = []; placedBombs = []; scorches = [];
-                bigBossKills = 0; 
-
-                getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'enemies')).then(s => {
-                    s.forEach(d => deleteDoc(d.ref).catch(()=>{}));
-                });
-
-                setDoc(roomRef, { hostId: currentUser.uid, lastPing: now, wave: wave });
-
-                setTimeout(() => { if(isHost) spawnWave(); }, 1500);
-            } 
-            else if (now - data.lastPing > 2500) {
-                isHost = true;
-                setDoc(roomRef, { hostId: currentUser.uid, lastPing: now, wave: wave }, {merge: true});
-            }
-            else {
-                isHost = (data.hostId === currentUser.uid);
-                if (!isHost && data.wave !== wave) {
-                    wave = data.wave; 
-                    document.getElementById('wave-name').innerText=`DALGA ${wave}`;
-                }
-            }
-        }, (e) => console.error("Room Sync Error:", e));
-
-        hostCheckInterval = setInterval(() => {
-            if (isHost) updateDoc(roomRef, { lastPing: Date.now(), wave: wave }).catch(()=>{});
-        }, 1500);
-    }
-
-    function setupEnemySync() {
-        const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'enemies');
-        onSnapshot(colRef, (snap) => {
-            snap.docChanges().forEach(c => {
-                const d = c.doc.data();
-                const id = c.doc.id;
-                if (c.type === 'added') {
-                    if (!enemies.find(e => e.id === id)) {
-                        let en = new Character(d.x, d.y, false, d.type, id);
-                        en.hp = d.hp; en.maxHp = d.maxHp; en.size = d.size; en.speed = d.speed;
-                        if(d.headIndex >= 0) en.head = assets.enemies[d.headIndex];
-                        enemies.push(en);
-                    }
-                } else if (c.type === 'modified') {
-                    let en = enemies.find(e => e.id === id);
-                    if (en) { en.hp = d.hp; en.maxHp = d.maxHp || en.maxHp; } 
-                } else if (c.type === 'removed') {
-                    let idx = enemies.findIndex(e => e.id === id);
-                    if (idx !== -1) {
-                        killEnemyLocal(enemies[idx], idx); 
-                    }
-                }
-            });
-            document.getElementById('status-indicator').style.display = 'none';
-            if(!gameActive) { gameActive = true; loop(); }
-        }, (e) => console.error("Enemy Listen Error:", e));
-    }
-
-    function loop() {
-        if(!gameActive) return;
-        ctx.clearRect(0,0,width,height);
-        camera.x+=(player.x-camera.x)*0.1; camera.y+=(player.y-camera.y)*0.1;
-        if(camera.shake>0) camera.shake*=0.9;
-
-        const nowTime = Date.now();
-        
-        for(const pid in otherPlayers) {
-            if (nowTime - otherPlayers[pid].lastSeenLocal > 3000) { 
-                if (isHost) { 
-                    deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'players', pid)).catch(()=>{});
-                }
-                delete otherPlayers[pid]; 
-            }
-        }
-
-        // PATLAMA İZLERİNİ (SCORCHES) EN ALT KATMANA ÇİZ
-        scorches.forEach(sc => {
-            const p = worldToScreen(sc.x, sc.y);
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.scale(1, 0.5); // İzometrik basıklık
-            ctx.beginPath();
-            ctx.arc(0, 0, 5 * (ISO_W/2), 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(20, 10, 0, 0.6)'; // İsli koyu renk
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(0, 0, 2 * (ISO_W/2), 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(10, 5, 0, 0.8)'; // Daha koyu merkez
-            ctx.fill();
-            ctx.restore();
-        });
-
-        let rq = [...deco, ...enemies, ...gems, ...items, player, ...Object.values(otherPlayers)];
-        rq.sort((a,b)=>(a.x+a.y)-(b.x+b.y));
-        rq.forEach(it=>{if(it.draw)it.draw(it.remoteData||null); else drawDeco(it);});
-        
-        // YERE ATILMIŞ BOMBALARI ÇİZ VE PATLAT
-        for (let i = placedBombs.length - 1; i >= 0; i--) {
-            let b = placedBombs[i];
-            b.timer--;
-            b.anim += 0.3; 
-
-            const p = worldToScreen(b.x, b.y);
-
-            // Etki alanını gösteren saydam kırmızı çember
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.scale(1, 0.5); 
-            ctx.beginPath();
-            ctx.arc(0, 0, 5 * (ISO_W/2), 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255, 68, 68, 0.2)';
-            ctx.fill();
-            ctx.strokeStyle = 'rgba(255, 68, 68, 0.6)';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.restore();
-
-            // Bomba İkonu Dönüşü
-            if (assets.bomb) {
-                ctx.save();
-                ctx.translate(p.x, p.y - 10);
-                ctx.rotate(b.anim); 
-                ctx.drawImage(assets.bomb, -12, -12, 24, 24);
-                ctx.restore();
-            }
-
-            // PATLAMA ZAMANI GELDİYSE (180 frame / 3 saniye dolunca)
-            if (b.timer <= 0) {
-                camera.shake = 30; // ÇOK DAHA YÜKSEK SARSINTI
-                
-                // Kalıcı Patlama İzi Bırak
-                scorches.push({x: b.x, y: b.y});
-
-                enemies.forEach((en, ei) => {
-                    if (Math.sqrt((en.x - b.x)**2 + (en.y - b.y)**2) <= 5) {
-                        en.hp -= 400; 
-                        if (gameMode === 'multi') {
-                            const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', en.id);
-                            if (en.hp <= 0) deleteDoc(eRef).catch(()=>{});
-                            else updateDoc(eRef, { hp: increment(-400) }).catch(()=>{});
-                        } else {
-                            if (en.hp <= 0) killEnemyLocal(en, ei);
-                        }
-                    }
-                });
-                placedBombs.splice(i, 1); 
-            }
-        }
-        
-        let activeBoss = enemies.find(e => e.type === 'boss-head');
-        let bossBarContainer = document.getElementById('boss-bar-container');
-        if (activeBoss && activeBoss.hp > 0) {
-            bossBarContainer.style.display = 'block';
-            let hpPercent = Math.max(0, (activeBoss.hp / activeBoss.maxHp) * 100);
-            document.getElementById('boss-bar-fill').style.width = hpPercent + '%';
-        } else {
-            bossBarContainer.style.display = 'none';
-        }
-
-        if(player.hp>0){
-            for(let i = items.length - 1; i >= 0; i--) {
-                let it = items[i];
-                if(Math.sqrt((it.x-player.x)**2+(it.y-player.y)**2)<1.5) {
-                    if(it.type === 'AK'){ 
-                        player.hasAK=true; document.getElementById('switch-btn').style.display='flex'; 
-                    } else if(it.type === 'BOMB'){ 
-                        playerBombCount++; updateBombUI(); 
-                    }
-                    items.splice(i,1);
-                }
-            }
-
-            gems.forEach((g,i)=>{if(Math.sqrt((g.x-player.x)**2+(g.y-player.y)**2)<1.2){xp+=g.v; gems.splice(i,1);}});
-            if(xp>=nextXp){level++; xp=0; nextXp*=1.5; player.hp=100; document.getElementById('lvl').innerText=level;}
-            
-            let mx=joyInput.x, my=joyInput.y;
-            if(keys['KeyW'])my-=1; if(keys['KeyS'])my+=1; if(keys['KeyA'])mx-=1; if(keys['KeyD'])mx+=1;
-            player.isWalking=(mx!==0||my!==0);
-            if(player.isWalking){ player.x+=(mx+my)*player.speed; player.y+=(my-mx)*player.speed; if(mx!==0)player.face=mx>0?1:-1; }
-            
-            enemies.forEach(e=>{
-                let nearest = player;
-                let minDist = Math.sqrt((player.x-e.x)**2+(player.y-e.y)**2);
-                
-                if (gameMode === 'multi') { 
-                    Object.values(otherPlayers).forEach(op => {
-                        let d = Math.sqrt((op.x-e.x)**2+(op.y-e.y)**2);
-                        if (d < minDist) { minDist = d; nearest = op; }
-                    });
-                }
-
-                if(minDist > 0.1) {
-                    e.x += (nearest.x - e.x) / minDist * e.speed;
-                    e.y += (nearest.y - e.y) / minDist * e.speed;
-                }
-                if(minDist < 0.8 * e.size && nearest === player) {
-                    player.hp -= 0.3; 
-                }
-            });
-        } else if(player.dFr>=2.5){ gameActive=false; document.getElementById('game-over').style.display='flex'; }
-        
-        if(isFiring) {
-            const now = Date.now(); const delay = (player.weapon==='AK')?140:480;
-            if(now - (player.lastShot || 0) >= delay) {
-                let target=null, minD=10;
-                enemies.forEach(en => { let d=Math.sqrt((en.x-player.x)**2+(en.y-player.y)**2); if(d<minD){minD=d; target=en;} });
-                if(target){ bullets.push({x:player.x, y:player.y, tx:target.x, ty:target.y, dmg:(player.weapon==='AK'?65:40), life:80}); player.shT=6; player.lastShot=now; }
-            }
-        }
-
-        bullets.forEach((b,i)=>{
-            let d=Math.sqrt((b.tx-b.x)**2+(b.ty-b.y)**2); b.x+=(b.tx-b.x)/d*0.6; b.y+=(b.ty-b.y)/d*0.6; b.life--;
-            let p=worldToScreen(b.x,b.y); ctx.fillStyle='#fff'; ctx.fillRect(p.x-2, p.y-2, 4, 4);
-            
-            enemies.forEach((e,ei)=>{ 
-                if(b.life > 0 && Math.sqrt((b.x-e.x)**2+(b.y-e.y)**2)<1.2*e.size){ 
-                    b.life = 0; 
-                    e.hp -= b.dmg; 
-                    
-                    if (gameMode === 'multi') {
-                        const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', e.id);
-                        if (e.hp <= 0) {
-                            deleteDoc(eRef).catch(()=>{}); 
-                        } else {
-                            updateDoc(eRef, { hp: increment(-b.dmg) }).catch(()=>{}); 
-                        }
-                    } else {
-                        if (e.hp <= 0) killEnemyLocal(e, ei); 
-                    }
-                } 
-            });
-            if(b.life<=0)bullets.splice(i,1);
-        });
-        
-        document.getElementById('hp').innerText=Math.max(0, Math.ceil(player.hp)); document.getElementById('score').innerText=score;
-        document.getElementById('xp-fill').style.width=(xp/nextXp*100)+'%';
-        
-        if(aoeCooldown>0) aoeCooldown--; 
-        document.getElementById('aoe-cd-overlay').style.height=(aoeCooldown/MAX_AOE_CD*100)+'%';
-
-        if(bombCooldown>0) bombCooldown--;
-        document.getElementById('bomb-cd-overlay').style.height=(bombCooldown/180*100)+'%';
-        
-        if(enemies.length === 0 && player.hp > 0 && !spawning) {
-            if (gameMode === 'single') {
-                wave++; spawnWave();
-            } else if (isHost) { 
-                wave++; spawnWave();
-            }
-        }
-        
-        requestAnimationFrame(loop);
-    }
-
-    function triggerAOE() {
-        if (aoeCooldown <= 0) {
-            camera.shake = 15;
-            enemies.forEach((en, ei) => {
-                if (Math.sqrt((en.x - player.x)**2 + (en.y - player.y)**2) < 8) {
-                    en.hp -= 500;
-                    if (gameMode === 'multi') {
-                        const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', en.id);
-                        if (en.hp <= 0) deleteDoc(eRef).catch(()=>{});
-                        else updateDoc(eRef, { hp: increment(-500) }).catch(()=>{});
-                    } else {
-                        if (en.hp <= 0) killEnemyLocal(en, ei);
-                    }
-                }
-            });
-            aoeCooldown = MAX_AOE_CD;
-        }
-    }
-
-    function placeBomb() {
-        if (playerBombCount > 0 && bombCooldown <= 0) {
-            playerBombCount--; 
-            updateBombUI();
-            bombCooldown = 180; 
-            
-            // 3 saniyelik bekleme (180 frame)
-            placedBombs.push({ x: player.x, y: player.y, timer: 180, anim: 0 });
-        }
-    }
-
-    function drawDeco(d){const p=worldToScreen(d.x,d.y); ctx.fillStyle=(d.t==='cactus'?'#2e7d32':(d.t==='rock'?'#a1887f':'#e59c50')); if(d.t==='dune'){ctx.beginPath();ctx.moveTo(p.x-30,p.y);ctx.lineTo(p.x,p.y-10);ctx.lineTo(p.x+30,p.y);ctx.fill();}else ctx.fillRect(p.x-4, p.y-(d.t==='cactus'?25:6), 8, (d.t==='cactus'?25:6));}
-    
-    function drawAK(){const p=worldToScreen(this.x,this.y); this.anim+=0.05; if(assets.icon)ctx.drawImage(assets.icon, p.x-20, p.y-30+Math.sin(this.anim)*5, 40, 40);}
-    
-    function drawBombItem(){
-        const p = worldToScreen(this.x, this.y);
-        this.anim += 0.05;
-        if(assets.bomb) {
-            ctx.save();
-            ctx.translate(p.x, p.y - 15 + Math.sin(this.anim)*3); 
-            ctx.drawImage(assets.bomb, -12, -12, 24, 24);
-            ctx.restore();
-        }
-    }
-
-    function loadAssets() {
-        const queue = [];
-        const add = (id, target) => queue.push({id, target});
-        IDS.p_idle.forEach(id => add(id, assets.p_idle));
-        IDS.p_walk.forEach(id => add(id, assets.p_walk));
-        add(IDS.p_shoot, (img) => assets.p_shoot = img);
-        IDS.p_death.forEach(id => add(id, assets.p_death));
-        IDS.ak_idle.forEach(id => add(id, assets.ak_idle));
-        IDS.ak_walk.forEach(id => add(id, assets.ak_walk));
-        add(IDS.ak_shoot, (img) => assets.ak_shoot = img);
-        IDS.ak_death.forEach(id => add(id, assets.ak_death));
-        IDS.switch.forEach(id => add(id, assets.switch));
-        add(IDS.ak_icon, (img) => assets.icon = img);
-        add(IDS.bomb, (img) => assets.bomb = img); 
-        add(IDS.boss1, (img) => assets.boss1 = img);
-        add(IDS.boss2, (img) => assets.boss2 = img);
-        add(IDS.boss_bar, (img) => { assets.boss_bar = img; document.getElementById('boss-bar-bg').src = img.src; });
-        IDS.enemies.forEach(h => add(h.id, (img) => assets.enemies.push({img, n: h.n})));
-
-        assets.total = queue.length;
-        queue.forEach(item => {
-            const img = new Image(); img.crossOrigin = "anonymous";
-            img.src = item.id.includes('.') ? item.id : `https://lh3.googleusercontent.com/d/${item.id}`;
-            img.onload = () => {
-                assets.loaded++; document.getElementById('load-count').innerText=`YÜKLENİYOR: %${Math.floor(assets.loaded/assets.total*100)}`;
-                if(typeof item.target === 'function') item.target(img); else item.target.push(img);
-                if(assets.loaded >= assets.total) finishLoading();
-            };
-            img.onerror = () => { 
-                assets.loaded++; 
-                const tcv = document.createElement('canvas'); 
-                tcv.width = 64; tcv.height = 64;
-                const tcx = tcv.getContext('2d');
-                if (item.id === IDS.boss2 || item.id === IDS.boss_bar || item.id === IDS.bomb) {
-                    tcx.fillStyle = 'rgba(0,0,0,0)'; tcx.fillRect(0, 0, 64, 64);
-                } else {
-                    tcx.fillStyle = '#b71c1c'; tcx.fillRect(0, 0, 64, 64);
-                }
-                const fbImg = new Image(); fbImg.src = tcv.toDataURL(); 
-                if(typeof item.target === 'function') item.target(fbImg); else item.target.push(fbImg);
-                if(assets.loaded >= assets.total) finishLoading(); 
-            };
-        });
-    }
-
-    function finishLoading() { document.getElementById('loading-screen').style.display='none'; }
-    
-    window.forceStartGame = () => {
-        document.getElementById('status-indicator').style.display = 'none';
-        gameActive = true;
-        loop();
-    };
-
-    window.startGame = (mode) => {
-        if(mode === 'multi') {
-            document.getElementById('main-menu').style.display='none';
-            document.getElementById('name-input-screen').style.display='flex';
-        } else {
-            gameMode = 'single';
-            playerName = "OYUNCU";
-            initGameFlow();
-        }
-    };
-
-    window.backToMenu = () => {
-        document.getElementById('name-input-screen').style.display='none';
-        document.getElementById('main-menu').style.display='flex';
-    };
-
-    window.joinMultiplayer = () => {
-        let n = document.getElementById('player-name-input').value.trim();
-        if(!n) n = "OYUNCU_" + Math.floor(Math.random()*1000);
-        playerName = n;
-        gameMode = 'multi';
-        initGameFlow();
-    };
-
-    async function initGameFlow() {
-        document.getElementById('main-menu').style.display='none';
-        document.getElementById('name-input-screen').style.display='none';
-        document.getElementById('ui-overlay').style.display='block';
-        player = new Character(0,0,true);
-        for(let i=0; i<60; i++) deco.push({x:Math.random()*120-60, y:Math.random()*120-60, t:['cactus','rock','dune'][Math.floor(Math.random()*3)]});
-        
-        gems = []; items = []; bullets = []; enemies = []; placedBombs = []; scorches = [];
-        playerBombCount = 0; bombCooldown = 0; bigBossKills = 0; 
-        updateBombUI();
-
-        if(gameMode==='multi') {
-            document.getElementById('status-indicator').style.display = 'block';
-            try {
-                await signInAnonymously(auth);
-                onAuthStateChanged(auth, async u => { 
-                    if(u){ 
-                        currentUser = u; 
-                        document.getElementById('online-status').innerText = `ONLINE | ${playerName} ${isHost ? "(Kurucu)" : ""}`;
-                        
-                        await syncOnline();
-                        
-                        const col = collection(db, 'artifacts', appId, 'public', 'data', 'players');
-                        onSnapshot(col, snap => { 
-                            snap.docChanges().forEach(c => { 
-                                const id = c.doc.id; 
-                                if(id === u.uid) return; 
-                                if(c.type === 'removed') {
-                                    delete otherPlayers[id]; 
-                                } else { 
-                                    const d = c.doc.data(); 
-                                    if(Date.now() - d.ts > 10000) {
-                                        if (isHost) deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'players', id)).catch(()=>{});
-                                        delete otherPlayers[id];
-                                    } else {
-                                        if(!otherPlayers[id]) otherPlayers[id] = new Character(d.x, d.y, false, 'remote', id); 
-                                        otherPlayers[id].remoteData = d; 
-                                        otherPlayers[id].lastSeenLocal = Date.now(); 
-                                    }
-                                } 
-                            });
-                        }, (err) => console.error("Firestore Listen Error:", err)); 
-                        
-                        setInterval(syncOnline, 300); 
-
-                        setupHostSystem();
-                        setupEnemySync();
-                    } 
-                });
-            } catch(e) { 
-                console.error("Auth Error:", e);
-                document.getElementById('status-text').innerText = "BAĞLANTI HATASI!";
-                document.getElementById('status-subtext').innerText = "Hata Kodu: " + e.code;
-            }
-        } else {
-            spawnWave();
-            gameActive = true;
-            loop();
-        }
-    }
-
-    function resize() { width=window.innerWidth; height=window.innerHeight; canvas.width=width; canvas.height=height; ctx.imageSmoothingEnabled=false; }
-    window.addEventListener('resize', resize); resize();
-    
-    function isInside(touch, rect) {
-        return touch.clientX >= rect.left && touch.clientX <= rect.right && touch.clientY >= rect.top && touch.clientY <= rect.bottom;
-    }
-
-    window.addEventListener('touchstart', e => { 
-        [...e.changedTouches].forEach(t => { 
-            if(t.clientX < width/2 && !joyTouchId){ 
-                joyTouchId = t.identifier; handleJoy(t); 
-            } else { 
-                const fr = document.getElementById('fire-btn').getBoundingClientRect(); 
-                const ar = document.getElementById('aoe-btn').getBoundingClientRect(); 
-                const sr = document.getElementById('switch-btn').getBoundingClientRect(); 
-                const br = document.getElementById('bomb-btn').getBoundingClientRect(); 
-                
-                if(isInside(t, fr)) {
-                    isFiring = true; 
-                } else if(isInside(t, ar)) {
-                    triggerAOE(); 
-                } else if(isInside(t, sr) && player.hasAK && !player.isSw) {
-                    player.isSw = true; player.swFr = 0; player.swT = (player.weapon === 'PISTOL' ? 'AK' : 'PISTOL'); 
-                } else if(isInside(t, br)) {
-                    placeBomb(); 
-                }
-            } 
-        }); 
-    });
-
-    window.addEventListener('touchend', e => { 
-        [...e.changedTouches].forEach(t => { 
-            if(t.identifier === joyTouchId){ 
-                joyTouchId = null; joyInput = {x:0,y:0}; document.getElementById('knob').style.left = '32px'; document.getElementById('knob').style.top = '32px'; 
-            } 
-            if(t.clientX > width/2) isFiring = false; 
-        }); 
-    });
-    
-    window.addEventListener('touchmove', e => { [...e.changedTouches].forEach(t => { if(t.identifier===joyTouchId) handleJoy(t); }); });
-    function handleJoy(t) { const r=document.getElementById('joy-zone').getBoundingClientRect(); const cx=r.left+r.width/2, cy=r.top+r.height/2; let dx=t.clientX-cx, dy=t.clientY-cy; const d=Math.min(Math.sqrt(dx*dx+dy*dy), 30); const a=Math.atan2(dy,dx); joyInput.x=Math.cos(a)*(d/30); joyInput.y=Math.sin(a)*(d/30); document.getElementById('knob').style.left=(32+Math.cos(a)*d)+'px'; document.getElementById('knob').style.top=(32+Math.sin(a)*d)+'px'; }
-    window.addEventListener('keydown', e => { 
-        keys[e.code]=true; 
-        if(e.code==='Space') isFiring=true; 
-        if(e.code==='KeyR') triggerAOE(); 
-        if(e.code==='KeyQ' && player.hasAK && !player.isSw){ player.isSw=true; player.swFr=0; player.swT=(player.weapon==='PISTOL'?'AK':'PISTOL'); } 
-        if(e.code==='KeyU') placeBomb(); 
-    });
-    window.addEventListener('keyup', e => { keys[e.code]=false; if(e.code==='Space')isFiring=false; });
-    document.getElementById('fs-btn').onclick = () => { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
-
-    loadAssets();
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Deniz Mehmet: Çöl Operasyonu Ultimate</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-        :root {
-            --pixel-sand: #f4a460;
-            --ui-gold: #ffd700;
-            --ui-blood: #ff4444;
-            --ui-dark: #3e2723;
-            --xp-color: #00e5ff;
-        }
-
-        body {
-            margin: 0; padding: 0;
-            background-color: #1a1a1a;
-            color: var(--ui-dark);
-            font-family: 'Press Start 2P', cursive;
-            overflow: hidden;
-            touch-action: none;
-            image-rendering: pixelated;
-        }
-
-        #game-container {
-            position: relative;
-            width: 100vw; height: 100vh;
-            background: linear-gradient(to bottom, #ffbd73 0%, #f4a460 100%);
-        }
-
-        canvas { display: block; image-rendering: pixelated; width: 100%; height: 100%; }
-
-        .overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.8); z-index: 100;
-        }
-
-        .menu-card {
-            background: #d2b48c; border: 8px solid var(--ui-dark);
-            padding: 2rem; text-align: center; box-shadow: 10px 10px 0 rgba(0,0,0,0.5);
-            max-width: 90%;
-        }
-
-        h1 { color: #8b4513; text-shadow: 4px 4px 0 #fff; margin-bottom: 2rem; font-size: 1.5rem; }
-
-        .btn {
-            background: var(--ui-dark); color: #fff; border: none;
-            padding: 15px 30px; font-family: inherit; font-size: 0.8rem;
-            cursor: pointer; margin: 10px; transition: transform 0.1s;
-            box-shadow: 4px 4px 0 #5d4037;
-        }
-        .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #5d4037; }
-        .btn:hover { background: #5d4037; }
-
-        #ui-layer {
-            position: absolute; top: 10px; left: 10px; right: 10px;
-            pointer-events: none; display: flex; justify-content: space-between;
-            z-index: 50;
-        }
-
-        .stat-box {
-            background: rgba(255,255,255,0.9); border: 4px solid var(--ui-dark);
-            padding: 8px; font-size: 0.6rem; line-height: 1.5;
-        }
-
-        /* Ayarlar Menüsü */
-        #settings-menu {
-            display: none;
-        }
-        .settings-row {
-            margin: 15px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        input[type="range"] {
-            width: 100%;
-            cursor: pointer;
-        }
-
-        /* Kontroller */
-        #mobile-controls {
-            position: absolute; bottom: 20px; left: 0; width: 100%;
-            display: flex; justify-content: space-between; padding: 0 40px;
-            pointer-events: none; z-index: 60;
-        }
-        .control-zone {
-            width: 120px; height: 120px; background: rgba(255,255,255,0.2);
-            border-radius: 50%; border: 4px solid rgba(255,255,255,0.3);
-            pointer-events: auto; position: relative;
-        }
-        #knob {
-            width: 50px; height: 50px; background: var(--ui-dark);
-            border-radius: 50%; position: absolute; left: 35px; top: 35px;
-        }
-        #fire-btn {
-            background: var(--ui-blood); border: 6px solid var(--ui-dark);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 0.6rem; box-shadow: 0 6px 0 #8b0000;
-        }
-    </style>
-</head>
-<body>
-
-<div id="game-container">
-    <canvas id="gameCanvas"></canvas>
-
-    <!-- Ana Menü -->
-    <div id="main-menu" class="overlay">
-        <div class="menu-card">
-            <h1>DENİZ MEHMET<br><small style="font-size: 0.6em;">ÇÖL OPERASYONU</small></h1>
-            <button class="btn" onclick="startGame()">BAŞLA</button>
-            <button class="btn" onclick="toggleSettings(true)">AYARLAR</button>
-        </div>
-    </div>
-
-    <!-- Ayarlar Menüsü -->
-    <div id="settings-menu" class="overlay">
-        <div class="menu-card">
-            <h1>AYARLAR</h1>
-            <div class="settings-row">
-                <label>Müzik Sesi</label>
-                <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5">
-            </div>
-            <div class="settings-row">
-                <label>Buton Büyüklüğü</label>
-                <input type="range" id="size-slider" min="0.5" max="1.5" step="0.1" value="1">
-            </div>
-            <button class="btn" onclick="toggleSettings(false)">KAYDET VE DÖN</button>
-        </div>
-    </div>
-
-    <!-- Oyun Sonu -->
-    <div id="game-over" class="overlay" style="display:none;">
-        <div class="menu-card">
-            <h1 id="death-title">ÖLDÜNÜZ!</h1>
-            <p id="final-stats"></p>
-            <button class="btn" onclick="location.reload()">TEKRAR DENE</button>
-        </div>
-    </div>
-
-    <div id="ui-layer">
-        <div class="stat-box">
-            HP: <span id="hp-val">100</span><br>
-            XP: <span id="xp-val">0</span> / <span id="lvl-up-val">100</span><br>
-            LVL: <span id="lvl-val">1</span>
-        </div>
-        <div class="stat-box" style="text-align: right;">
-            DALGA: <span id="wave-val">1</span><br>
-            KALAN: <span id="rem-val">0</span><br>
-            BOMBA: <span id="bomb-val">3</span>
-        </div>
-    </div>
-
-    <div id="mobile-controls">
-        <div id="joy-zone" class="control-zone">
-            <div id="knob"></div>
-        </div>
-        <div id="fire-btn" class="control-zone">ATEŞ</div>
-    </div>
-</div>
-
-<script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    
-    // Sesler
-    const bgMusic = new Audio('menüses.mp3');
-    bgMusic.loop = true;
-    let musicStarted = false;
-
-    // Ayarlar State
-    let settings = {
-        volume: 0.5,
-        buttonScale: 1
-    };
-
-    // Ekran Boyutu
-    let width, height;
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    // Oyun State
-    let gameActive = false;
-    let wave = 1;
-    let enemies = [];
-    let bullets = [];
-    let particles = [];
-    let smokes = []; // Sis/Duman için yeni dizi
-    let items = [];
-    let lastFire = 0;
-    let isFiring = false;
-    let joyInput = { x: 0, y: 0 };
-    let joyTouchId = null;
-
-    const player = {
-        x: 0, y: 0,
-        hp: 100, maxHp: 100,
-        speed: 3,
-        xp: 0, lvl: 1, nextLvl: 100,
-        bombs: 3,
-        size: 20
-    };
-
-    // Patlama Sınıfı (Gelişmiş)
-    class Particle {
-        constructor(x, y, color, speed, life, isSmoke = false) {
-            this.x = x;
-            this.y = y;
-            this.color = color;
-            this.vx = (Math.random() - 0.5) * speed;
-            this.vy = (Math.random() - 0.5) * speed;
-            this.life = life;
-            this.maxLife = life;
-            this.size = isSmoke ? Math.random() * 15 + 10 : Math.random() * 4 + 2;
-            this.isSmoke = isSmoke;
-        }
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            this.life--;
-            if (this.isSmoke) {
-                this.vx *= 0.98;
-                this.vy *= 0.98;
-                this.size += 0.1; // Duman genişler
-            }
-        }
-        draw() {
-            let opacity = this.life / this.maxLife;
-            ctx.fillStyle = this.color.replace(')', `, ${opacity})`).replace('rgb', 'rgba');
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-
-    function createExplosion(x, y) {
-        // Ateş ve Parlama Parçacıkları
-        for (let i = 0; i < 40; i++) {
-            particles.push(new Particle(x, y, 'rgb(255, 69, 0)', Math.random() * 10 + 5, 20));
-            particles.push(new Particle(x, y, 'rgb(255, 215, 0)', Math.random() * 8 + 2, 15));
-        }
-        // Kalıcı Sis/Duman
-        for (let i = 0; i < 15; i++) {
-            smokes.push(new Particle(x, y, 'rgb(100, 100, 100)', Math.random() * 2, 120 + Math.random() * 60, true));
-        }
-    }
-
-    function triggerAOE() {
-        if (player.bombs <= 0) return;
-        player.bombs--;
-        updateUI();
-        createExplosion(player.x, player.y);
-        
-        enemies.forEach(en => {
-            const d = Math.hypot(en.x - player.x, en.y - player.y);
-            if (d < 150) en.hp -= 100;
-        });
-    }
-
-    // --- Sistem Fonksiyonları ---
-
-    function toggleSettings(show) {
-        document.getElementById('main-menu').style.display = show ? 'none' : 'flex';
-        document.getElementById('settings-menu').style.display = show ? 'flex' : 'none';
-        
-        if (!show) {
-            // Kaydet
-            settings.volume = parseFloat(document.getElementById('volume-slider').value);
-            settings.buttonScale = parseFloat(document.getElementById('size-slider').value);
-            bgMusic.volume = settings.volume;
-            applyControlScaling();
-        }
-    }
-
-    function applyControlScaling() {
-        const s = settings.buttonScale;
-        document.getElementById('joy-zone').style.transform = `scale(${s})`;
-        document.getElementById('fire-btn').style.transform = `scale(${s})`;
-    }
-
-    function startGame() {
-        document.getElementById('main-menu').style.display = 'none';
-        gameActive = true;
-        player.x = width/2;
-        player.y = height/2;
-        spawnWave();
-        
-        if (!musicStarted) {
-            bgMusic.play().catch(e => console.log("Müzik için etkileşim gerekiyor"));
-            musicStarted = true;
-        }
-        
-        requestAnimationFrame(gameLoop);
-    }
-
-    function spawnWave() {
-        const count = 5 + wave * 3;
-        for(let i=0; i<count; i++) {
-            const side = Math.floor(Math.random()*4);
-            let ex, ey;
-            if(side===0) { ex=Math.random()*width; ey=-50; }
-            else if(side===1) { ex=Math.random()*width; ey=height+50; }
-            else if(side===2) { ex=-50; ey=Math.random()*height; }
-            else { ex=width+50; ey=Math.random()*height; }
-            
-            enemies.push({
-                x: ex, y: ey,
-                hp: 20 + wave*5,
-                speed: 1 + Math.random()*1.5,
-                color: wave % 5 === 0 ? '#ff00ff' : '#2f4f4f'
-            });
-        }
-        updateUI();
-    }
-
-    function updateUI() {
-        document.getElementById('hp-val').innerText = Math.ceil(player.hp);
-        document.getElementById('xp-val').innerText = player.xp;
-        document.getElementById('lvl-up-val').innerText = player.nextLvl;
-        document.getElementById('lvl-val').innerText = player.lvl;
-        document.getElementById('wave-val').innerText = wave;
-        document.getElementById('rem-val').innerText = enemies.length;
-        document.getElementById('bomb-val').innerText = player.bombs;
-    }
-
-    // --- Giriş Yönetimi ---
-    
-    // Müzik kontrolü için başlangıçta bir kez dokunma yeterli
-    window.addEventListener('touchstart', () => {
-        if (!musicStarted) {
-            bgMusic.play().catch(() => {});
-            musicStarted = true;
-        }
-    }, {once: true});
-
-    document.getElementById('joy-zone').addEventListener('touchstart', e => {
-        joyTouchId = e.changedTouches[0].identifier;
-    });
-
-    document.getElementById('fire-btn').addEventListener('touchstart', e => {
-        isFiring = true;
-        e.preventDefault();
-    });
-    document.getElementById('fire-btn').addEventListener('touchend', () => isFiring = false);
-
-    window.addEventListener('touchmove', e => {
-        for(let t of e.changedTouches) {
-            if(t.identifier === joyTouchId) {
-                const rect = document.getElementById('joy-zone').getBoundingClientRect();
-                const cx = rect.left + rect.width/2;
-                const cy = rect.top + rect.height/2;
-                let dx = t.clientX - cx;
-                let dy = t.clientY - cy;
-                const dist = Math.min(Math.sqrt(dx*dx + dy*dy), 40);
-                const angle = Math.atan2(dy, dx);
-                
-                joyInput.x = Math.cos(angle) * (dist/40);
-                joyInput.y = Math.sin(angle) * (dist/40);
-                
-                document.getElementById('knob').style.left = (35 + Math.cos(angle)*dist) + 'px';
-                document.getElementById('knob').style.top = (35 + Math.sin(angle)*dist) + 'px';
-            }
-        }
-    });
-
-    window.addEventListener('touchend', e => {
-        for(let t of e.changedTouches) {
-            if(t.identifier === joyTouchId) {
-                joyTouchId = null;
-                joyInput = {x:0, y:0};
-                document.getElementById('knob').style.left = '35px';
-                document.getElementById('knob').style.top = '35px';
-            }
-        }
-    });
-
-    // Klavye Desteği
-    const keys = {};
-    window.addEventListener('keydown', e => {
-        keys[e.code] = true;
-        if(e.code === 'Space') triggerAOE();
-    });
-    window.addEventListener('keyup', e => keys[e.code] = false);
-
-    // --- Ana Döngü ---
-
-    function gameLoop() {
-        if(!gameActive) return;
-
-        ctx.clearRect(0, 0, width, height);
-
-        // Hareket (Joystick veya Klavye)
-        let mx = joyInput.x;
-        let my = joyInput.y;
-        if(keys['KeyW']) my = -1;
-        if(keys['KeyS']) my = 1;
-        if(keys['KeyA']) mx = -1;
-        if(keys['KeyD']) mx = 1;
-
-        player.x += mx * player.speed;
-        player.y += my * player.speed;
-        
-        // Sınırlar
-        player.x = Math.max(20, Math.min(width-20, player.x));
-        player.y = Math.max(20, Math.min(height-20, player.y));
-
-        // Ateş
-        if(isFiring && Date.now() - lastFire > 200) {
-            // En yakın düşmana ateş et veya hareket yönüne
-            let targetX = mx, targetY = my;
-            if(enemies.length > 0) {
-                let nearest = enemies[0];
-                let minDist = Infinity;
-                enemies.forEach(en => {
-                    const d = Math.hypot(en.x-player.x, en.y-player.y);
-                    if(d < minDist) { minDist=d; nearest=en; }
-                });
-                const angle = Math.atan2(nearest.y - player.y, nearest.x - player.x);
-                targetX = Math.cos(angle);
-                targetY = Math.sin(angle);
-            } else if(mx === 0 && my === 0) {
-                targetY = -1; // Hiç hareket yoksa yukarı sık
-            }
-
-            bullets.push({
-                x: player.x, y: player.y,
-                vx: targetX * 7, vy: targetY * 7
-            });
-            lastFire = Date.now();
-        }
-
-        // Güncellemeler
-        bullets.forEach((b, bi) => {
-            b.x += b.vx; b.y += b.vy;
-            if(b.x<0||b.x>width||b.y<0||b.y>height) bullets.splice(bi, 1);
-            
-            enemies.forEach((en, ei) => {
-                if(Math.hypot(b.x-en.x, b.y-en.y) < 15) {
-                    en.hp -= 10;
-                    bullets.splice(bi, 1);
-                }
-            });
-        });
-
-        enemies.forEach((en, ei) => {
-            const angle = Math.atan2(player.y - en.y, player.x - en.x);
-            en.x += Math.cos(angle) * en.speed;
-            en.y += Math.sin(angle) * en.speed;
-
-            if(Math.hypot(en.x - player.x, en.y - player.y) < 25) {
-                player.hp -= 0.2;
-                if(player.hp <= 0) endGame();
-            }
-
-            if(en.hp <= 0) {
-                player.xp += 20;
-                if(player.xp >= player.nextLvl) {
-                    player.lvl++;
-                    player.xp = 0;
-                    player.nextLvl += 50;
-                    player.bombs++;
-                }
-                enemies.splice(ei, 1);
-                if(enemies.length === 0) {
-                    wave++;
-                    spawnWave();
-                }
-                updateUI();
-            }
-        });
-
-        // Parçacıklar ve Sis
-        particles.forEach((p, i) => {
-            p.update();
-            p.draw();
-            if(p.life <= 0) particles.splice(i, 1);
-        });
-        smokes.forEach((s, i) => {
-            s.update();
-            s.draw();
-            if(s.life <= 0) smokes.splice(i, 1);
-        });
-
-        // Çizim
-        // Player
-        ctx.fillStyle = '#8b4513';
-        ctx.fillRect(player.x-15, player.y-15, 30, 30);
-        ctx.fillStyle = '#000'; // Gözler
-        ctx.fillRect(player.x-10, player.y-10, 5, 5);
-        ctx.fillRect(player.x+5, player.y-10, 5, 5);
-
-        // Düşmanlar
-        enemies.forEach(en => {
-            ctx.fillStyle = en.color;
-            ctx.beginPath();
-            ctx.moveTo(en.x, en.y-15);
-            ctx.lineTo(en.x-15, en.y+15);
-            ctx.lineTo(en.x+15, en.y+15);
-            ctx.fill();
-        });
-
-        // Mermiler
-        ctx.fillStyle = '#333';
-        bullets.forEach(b => {
-            ctx.beginPath();
-            ctx.arc(b.x, b.y, 4, 0, Math.PI*2);
-            ctx.fill();
-        });
-
-        requestAnimationFrame(gameLoop);
-    }
-
-    function endGame() {
-        gameActive = false;
-        document.getElementById('game-over').style.display = 'flex';
-        document.getElementById('final-stats').innerText = `Dalga: ${wave} | Seviye: ${player.lvl}`;
-        bgMusic.pause();
-    }
-
-    // İlk UI güncellemesi
-    updateUI();
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Deniz Mehmet: Çöl Operasyonu Ultimate</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-        body {
-            margin: 0; padding: 0;
-            background-color: #1a1a1a;
-            font-family: 'Press Start 2P', cursive;
-            overflow: hidden;
-            touch-action: none;
-        }
-
-        #game-container { position: relative; width: 100vw; height: 100vh; background: #f4a460; }
-        canvas { display: block; image-rendering: pixelated; width: 100%; height: 100%; }
-
-        /* Menü Tasarımları */
-        .overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.8); z-index: 100; color: white;
-        }
-
-        .menu-card {
-            background: #d2b48c; border: 6px solid #3e2723;
-            padding: 30px; text-align: center; color: #3e2723;
-        }
-
-        .btn {
-            background: #3e2723; color: white; border: none;
-            padding: 15px 25px; font-family: inherit; font-size: 10px;
-            cursor: pointer; margin: 10px; display: block; width: 200px;
-        }
-
-        /* Ayarlar Slider */
-        .settings-row { margin: 20px 0; text-align: left; font-size: 8px; }
-        input[type="range"] { width: 100%; cursor: pointer; margin-top: 10px; }
-
-        /* Mobil Kontroller */
-        #controls {
-            position: absolute; bottom: 20px; width: 100%;
-            display: flex; justify-content: space-between; padding: 0 30px;
-            pointer-events: none; box-sizing: border-box;
-        }
-        .control-btn {
-            width: 100px; height: 100px; background: rgba(255,255,255,0.2);
-            border: 3px solid white; border-radius: 50%; pointer-events: auto;
-        }
-        #fire-btn { background: rgba(255,0,0,0.4); display: flex; align-items: center; justify-content: center; font-size: 8px; }
-        #knob { width: 40px; height: 40px; background: white; border-radius: 50%; position: relative; left: 30px; top: 30px; }
-        
-        #stats { position: absolute; top: 10px; left: 10px; color: white; font-size: 8px; pointer-events: none; }
-    </style>
-</head>
-<body>
-
-<div id="game-container">
-    <canvas id="gameCanvas"></canvas>
-
-    <div id="stats">HP: <span id="hp">100</span> | BOMBA: <span id="bmb">3</span></div>
-
-    <!-- Ana Menü -->
-    <div id="main-menu" class="overlay">
-        <div class="menu-card">
-            <h2 style="font-size: 14px;">ÇÖL OPERASYONU</h2>
-            <button class="btn" onclick="start()">OYUNA BAŞLA</button>
-            <button class="btn" onclick="openSettings()">AYARLAR</button>
-        </div>
-    </div>
-
-    <!-- Ayarlar -->
-    <div id="settings-menu" class="overlay" style="display:none;">
-        <div class="menu-card">
-            <h3>AYARLAR</h3>
-            <div class="settings-row">
-                <label>MÜZİK SESİ</label>
-                <input type="range" id="vol" min="0" max="1" step="0.1" value="0.5">
-            </div>
-            <div class="settings-row">
-                <label>DÜĞME BÜYÜKLÜĞÜ</label>
-                <input type="range" id="btnSize" min="0.5" max="1.5" step="0.1" value="1">
-            </div>
-            <button class="btn" onclick="closeSettings()">KAYDET</button>
-        </div>
-    </div>
-
-    <div id="controls" style="display:none;">
-        <div id="joy" class="control-btn"><div id="knob"></div></div>
-        <div id="fire-btn" class="control-btn" onclick="triggerBomb()">BOMBA</div>
-    </div>
-</div>
-
-<script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const bgMusic = new Audio('menüses.mp3');
-    bgMusic.loop = true;
-
-    let gameActive = false;
-    let width, height;
-    let particles = [];
-    let player = { x: 0, y: 0, hp: 100, bombs: 3 };
-
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    // Ayarlar Fonksiyonları
-    function openSettings() { document.getElementById('settings-menu').style.display = 'flex'; }
-    function closeSettings() {
-        const vol = document.getElementById('vol').value;
-        const size = document.getElementById('btnSize').value;
-        bgMusic.volume = vol;
-        document.getElementById('controls').style.transform = `scale(${size})`;
-        document.getElementById('settings-menu').style.display = 'none';
-    }
-
-    // Bomba ve Sis Sistemi
-    class Smoke {
-        constructor(x, y) {
-            this.x = x; this.y = y;
-            this.size = Math.random() * 20 + 10;
-            this.opacity = 0.6;
-            this.vx = (Math.random() - 0.5) * 1;
-            this.vy = (Math.random() - 0.5) * 1;
-            this.life = 180; // 3 saniye (60fps * 3)
-        }
-        update() {
-            this.x += this.vx; this.y += this.vy;
-            this.life--;
-            this.opacity -= 0.003;
-            this.size += 0.2;
-        }
-        draw() {
-            ctx.fillStyle = `rgba(150, 150, 150, ${this.opacity})`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-
-    function triggerBomb() {
-        if(player.bombs <= 0) return;
-        player.bombs--;
-        document.getElementById('bmb').innerText = player.bombs;
-
-        // Patlama Parçacıkları (Ateş)
-        for(let i=0; i<30; i++) {
-            particles.push({
-                x: player.x, y: player.y,
-                vx: (Math.random()-0.5)*15, vy: (Math.random()-0.5)*15,
-                life: 30, color: 'orange'
-            });
-        }
-        // Sis (Duman)
-        for(let i=0; i<15; i++) {
-            particles.push(new Smoke(player.x, player.y));
-        }
-    }
-
-    function start() {
-        document.getElementById('main-menu').style.display = 'none';
-        document.getElementById('controls').style.display = 'flex';
-        gameActive = true;
-        player.x = width/2; player.y = height/2;
-        bgMusic.play().catch(() => console.log("Müzik için etkileşim lazım"));
-        loop();
-    }
-
-    function loop() {
-        if(!gameActive) return;
-        ctx.fillStyle = '#f4a460';
-        ctx.fillRect(0, 0, width, height);
-
-        // Player çizimi (Temsili)
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(player.x - 15, player.y - 15, 30, 30);
-
-        // Parçacık ve Sis Yönetimi
-        for(let i = particles.length - 1; i >= 0; i--) {
-            let p = particles[i];
-            if(p instanceof Smoke) {
-                p.update(); p.draw();
-                if(p.life <= 0) particles.splice(i, 1);
-            } else {
-                p.x += p.vx; p.y += p.vy;
-                p.life--;
-                ctx.fillStyle = p.color;
-                ctx.fillRect(p.x, p.y, 4, 4);
-                if(p.life <= 0) particles.splice(i, 1);
-            }
-        }
-
-        requestAnimationFrame(loop);
-    }
-</script>
-</body>
-</html>
-
-```
+            <div>CAN: <span id="h
