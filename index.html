@@ -68,7 +68,6 @@
             pointer-events: none;
         }
 
-
         .menu-dune {
             position: absolute;
             left: 0;
@@ -248,7 +247,6 @@
         }
         .settings-slider { cursor: pointer; padding: 0; }
 
-        /* Lobi Stilleri */
         .room-list { max-height: 180px; overflow-y: auto; background: #222; border: 2px solid #fff; padding: 10px; text-align: left; margin-bottom: 15px; width: 320px; }
         .room-item { padding: 10px; border-bottom: 1px solid #444; display: flex; justify-content: space-between; cursor: pointer; color: #fff; font-size: 8px; }
         .room-item:hover { background: #333; }
@@ -353,7 +351,6 @@
 </head>
 <body>
 
-<!-- SES ELEMENTİ (Sadece Müzik İçin) -->
 <audio id="bg-music" loop>
     <source src="https://www.image2url.com/r2/default/audio/1777984718763-3664adf2-4643-4fb6-83c4-3695f314bc5a.mp3" type="audio/mpeg">
 </audio>
@@ -367,19 +364,17 @@
 <div id="status-indicator">
     <div id="status-text" style="font-size: 10px; margin-bottom: 15px;">ONLINE BAĞLANTI KURULUYOR...</div>
     <div id="status-subtext" style="font-size: 6px; color: #aaa;">Sunucu bekleniyor...</div>
-    <button class="menu-btn" style="width: 150px; font-size: 6px; margin-top: 15px;" onclick="forceStartGame()">ZORLA BAŞLAT</button>
 </div>
 
 <div id="game-container">
     <canvas id="gameCanvas"></canvas>
 
-    <!-- ANA MENÜ -->
     <div id="main-menu" class="overlay">
         <div class="menu-cactus left"></div>
         <div class="menu-cactus right"></div>
         <div class="menu-dune"></div>
 
-        <div class="menu-bot-wall" aria-label="Karşı duvardaki karakter yüzleri">
+        <div class="menu-bot-wall">
             <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/1dOyDgggITjnrOXNtgNkBRUpFS7I-S3NK" alt="Koray"><span>KORAY</span></div>
             <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/1LA1tv0ifY6X3qOK3u3ALRI_2Vu8f2USw" alt="Egehan"><span>EGEHAN</span></div>
             <div class="menu-bot-frame"><img src="https://lh3.googleusercontent.com/d/18d4GvAGyY8Xax5e2zYEtiMsSUdESSU2u" alt="Hüseyin"><span>HÜSEYİN</span></div>
@@ -408,7 +403,7 @@
             <button class="menu-btn" onclick="openSettings()">AYARLAR</button>
         </div>
     </div>
-    <!-- AYARLAR EKRANI -->
+    
     <div id="settings-screen" class="overlay" style="display:none;">
         <h1 style="font-size: 14px; color: var(--ui-gold); margin-bottom: 20px;">AYARLAR</h1>
         <label style="font-size: 8px;">MÜZİK SEVİYESİ</label>
@@ -416,7 +411,6 @@
         <button class="menu-btn" onclick="closeSettings()">GERİ</button>
     </div>
 
-    <!-- İSİM GİRİŞ EKRANI -->
     <div id="name-input-screen" class="overlay" style="display:none;">
         <h1 style="font-size: 14px; color: var(--ui-gold); margin-bottom: 20px; text-shadow: 2px 2px #000;">İSMİNİ GİR</h1>
         <input type="text" id="player-name-input" class="name-input" maxlength="10" placeholder="İSİM...">
@@ -424,50 +418,35 @@
         <button class="menu-btn" style="background: #f44336; color: white; border-color: white;" onclick="backToMenu()">İPTAL</button>
     </div>
 
-    <!-- LOBİ EKRANI -->
     <div id="lobby-screen" class="overlay" style="display:none;">
         <h1 style="font-size: 14px; color: var(--ui-gold); margin-bottom: 10px;">LOBİ</h1>
         <div class="lobby-inputs">
             <input type="text" id="room-code-input" class="name-input" style="width: 140px; margin:0;" maxlength="5" placeholder="KOD...">
             <button class="menu-btn" style="width:140px; margin:0;" onclick="joinByCode()">KODLA GİR</button>
         </div>
-        <div class="room-list" id="room-list-container">
-            <!-- Odalar JS ile buraya eklenecek -->
-        </div>
+        <div class="room-list" id="room-list-container"></div>
         <div style="display:flex; gap:10px;">
             <button class="menu-btn" style="width: 155px; margin: 0;" onclick="showCreateRoom()">ODA KUR</button>
             <button class="menu-btn" style="width: 155px; margin: 0; background: #f44336; color: white; border-color: white;" onclick="backToMenuFromLobby()">GERİ</button>
         </div>
     </div>
 
-    <!-- ODA KURMA EKRANI -->
     <div id="create-room-screen" class="overlay" style="display:none;">
         <h1 style="font-size: 14px; color: var(--ui-gold); margin-bottom: 20px;">ODA AYARLARI</h1>
-        
         <label style="font-size: 8px; margin-bottom: 5px; display:block;">MAKSİMUM KİŞİ</label>
         <select id="room-max-players" class="name-input" style="width: 250px; margin-bottom: 10px;">
-            <option value="2">2 KİŞİ</option>
-            <option value="3">3 KİŞİ</option>
-            <option value="4" selected>4 KİŞİ</option>
-            <option value="5">5 KİŞİ</option>
-            <option value="6">6 KİŞİ</option>
-            <option value="7">7 KİŞİ</option>
-            <option value="8">8 KİŞİ</option>
-            <option value="9">9 KİŞİ</option>
-            <option value="10">10 KİŞİ</option>
+            <option value="2">2 KİŞİ</option><option value="3">3 KİŞİ</option><option value="4" selected>4 KİŞİ</option>
+            <option value="5">5 KİŞİ</option><option value="6">6 KİŞİ</option><option value="7">7 KİŞİ</option>
+            <option value="8">8 KİŞİ</option><option value="9">9 KİŞİ</option><option value="10">10 KİŞİ</option>
         </select>
-
         <label style="font-size: 8px; margin-bottom: 5px; display:block;">GİZLİLİK</label>
         <select id="room-privacy" class="name-input" style="width: 250px; margin-bottom: 20px;">
-            <option value="public">AÇIK (LİSTELENİR)</option>
-            <option value="private">GİZLİ (KOD İLE)</option>
+            <option value="public">AÇIK (LİSTELENİR)</option><option value="private">GİZLİ (KOD İLE)</option>
         </select>
-
         <button class="menu-btn" onclick="confirmCreateRoom()">OLUŞTUR VE GİR</button>
         <button class="menu-btn" style="background: #f44336; color: white; border-color: white;" onclick="backToLobby()">İPTAL</button>
     </div>
 
-    <!-- OYUN UI -->
     <div id="ui-overlay">
         <div id="boss-bar-container">
             <div id="boss-bar-fill-container"><div id="boss-bar-fill"></div></div>
@@ -490,7 +469,6 @@
         </div>
     </div>
 
-    <!-- OYUN BİTTİ EKRANI -->
     <div id="game-over" class="overlay" style="display:none;">
         <h1 style="color: red; font-size: 16px; margin-bottom: 30px;">DENİZ MEHMET YENİ BİR GÜNE UYANAMADI</h1>
         <button class="menu-btn" onclick="restartGame()">TEKRAR DENE</button>
@@ -502,10 +480,9 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, initializeFirestore, updateDoc, deleteDoc, increment, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // MÜZİK KONTROLÜ
     const bgMusic = document.getElementById('bg-music');
     let musicVolume = 0.5;
     bgMusic.volume = musicVolume;
@@ -520,7 +497,7 @@
         bgMusic.currentTime = 0;
     }
 
-    // HTML5 AUDIO POOL (Mermi Sesi Kesilme Çözümü)
+    // WEB AUDIO POOL (Kesintisiz Ses)
     const sfxUrls = {
         pistolShoot: 'https://www.image2url.com/r2/default/audio/1778001801505-bcd63cb6-edda-4f5c-8ffc-37b39fc31125.mp3',
         akShoot: 'https://www.image2url.com/r2/default/audio/1778001833567-ddf2f256-2f47-434c-9e39-c9c540df1ce5.mp3',
@@ -548,54 +525,31 @@
         sfxIndex[type] = (idx + 1) % pool.length;
     }
 
-    function isMenuScreenOpen() {
-        return document.getElementById('ui-overlay').style.display !== 'block';
-    }
+    function isMenuScreenOpen() { return document.getElementById('ui-overlay').style.display !== 'block'; }
+    ['pointerdown', 'keydown', 'touchstart'].forEach(eventName => { document.addEventListener(eventName, () => { if (isMenuScreenOpen() && !gameActive) playMenuMusic(); }, { passive: true }); });
 
-    ['pointerdown', 'keydown', 'touchstart'].forEach(eventName => {
-        document.addEventListener(eventName, () => {
-            if (isMenuScreenOpen() && !gameActive) playMenuMusic();
-        }, { passive: true });
-    });
-
-    window.openSettings = () => {
-        document.getElementById('main-menu').style.display = 'none';
-        document.getElementById('settings-screen').style.display = 'flex';
-        playMenuMusic();
-    };
-
-    window.closeSettings = () => {
-        document.getElementById('settings-screen').style.display = 'none';
-        document.getElementById('main-menu').style.display = 'flex';
-        playMenuMusic();
-    };
-
-    window.updateVolume = (val) => {
-        musicVolume = Number(val);
-        bgMusic.volume = musicVolume;
-        if (musicVolume <= 0) stopMenuMusic();
-        else if (document.getElementById('ui-overlay').style.display !== 'block') playMenuMusic();
-    };
+    window.openSettings = () => { document.getElementById('main-menu').style.display = 'none'; document.getElementById('settings-screen').style.display = 'flex'; playMenuMusic(); };
+    window.closeSettings = () => { document.getElementById('settings-screen').style.display = 'none'; document.getElementById('main-menu').style.display = 'flex'; playMenuMusic(); };
+    window.updateVolume = (val) => { musicVolume = Number(val); bgMusic.volume = musicVolume; if (musicVolume <= 0) stopMenuMusic(); else if (document.getElementById('ui-overlay').style.display !== 'block') playMenuMusic(); };
 
     function showMsg(text) {
         const m = document.getElementById('msg-box');
         m.innerText = text;
         m.style.display = 'block';
-        setTimeout(() => m.style.display = 'none', 3000);
+        setTimeout(() => m.style.display = 'none', 3500);
     }
 
     // --- FIREBASE AYARLARI ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2E77b2u5h9xMX6O5hX6ZhtL-2ZDr1lVU",
-      authDomain: "dmc-col-coperasyonu.firebaseapp.com",
-      projectId: "dmc-col-coperasyonu",
-      storageBucket: "dmc-col-coperasyonu.firebasestorage.app",
-      messagingSenderId: "869416064151",
-      appId: "1:869416064151:web:717c648b6b87ed9f72c5d2",
-      measurementId: "G-291QQER019"
-    };
+    let firebaseConfig;
+    try {
+        firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyC2E77b2u5h9xMX6O5hX6ZhtL-2ZDr1lVU", authDomain: "dmc-col-coperasyonu.firebaseapp.com",
+            projectId: "dmc-col-coperasyonu", storageBucket: "dmc-col-coperasyonu.firebasestorage.app",
+            messagingSenderId: "869416064151", appId: "1:869416064151:web:717c648b6b87ed9f72c5d2"
+        };
+    } catch(e) { console.error("Firebase config parsing error"); }
 
-    const appId = "dmc-col-coperasyonu";
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'dmc-col-coperasyonu';
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = initializeFirestore(app, { experimentalForceLongPolling: true, useFetchStreams: false });
@@ -610,24 +564,22 @@
     let joyInput = {x:0, y:0}, joyTouchId = null, keys = {};
     let aoeCooldown = 0, isFiring = false;
     
-    // Mermi Sistemi Değişkenleri
     let ammo = { PISTOL: 12, AK: 36 };
     const maxAmmo = { PISTOL: 12, AK: 36 };
-    let isReloading = false;
-    let reloadTimeout = null;
+    let isReloading = false, reloadTimeout = null, syncIntervalId = null;
 
-    // Multiplayer Sistem Değişkenleri
     let gameMode = 'single', isHost = false, spawning = false, hostCheckInterval = null, onlineStarted = false;
-    let playerName = "OYUNCU"; 
-    let currentRoomId = null;
-    let unsubscribeLobby = null;
+    let playerName = "OYUNCU", currentRoomId = null, unsubscribeLobby = null;
+    
+    // Listener Cleanups
+    window.hostBotSync = null;
+    window.unsubscribeRoom = null;
+    window.unsubscribePlayers = null;
+    window.unsubscribeEnemies = null;
 
     const MAX_AOE_CD = 1800, ISO_W = 64, ISO_H = 32;
 
-    let playerBombCount = 0;
-    let bombCooldown = 0; 
-    let placedBombs = []; 
-    let bigBossKills = 0; 
+    let playerBombCount = 0, bombCooldown = 0, placedBombs = [], bigBossKills = 0;
 
     const IDS = {
         p_idle: ['1BDDrXOkIySIIRKHcUDAIWuLZLO9RVilB', '1Tex9DKqMhpfaOJLIG0K8XcGmwOqheVXV', '1Kd9rAvrQopR3bZD-jHp9V9yjPOAuYtF7', '1vz2d2gEPGVpbqLF2nz2LYKqLngCrtiWn', '1ayNk56yRPom1SsJ8xCOJBPoX5Jt_Sz6h', '1s2rQIxcyJfme8rHw2QdwM8SSGQFCthUm'],
@@ -639,11 +591,8 @@
         ak_shoot: '1GpW-qGKZahJpZ3ztiQlQ3OMx4hlm2LNI',
         ak_death: ['1sDJcUv9Rf-fMAc_voTqP_523eZabGoQc', '1Dm7VbFb5SemX3usNPjVkRW6t16tlA0PG', '1n14Bq27WIeoI8NWNfp4UppH4B2snfEWC'],
         switch: ['1Z-D2f_e_A3lB5Hi7zur8CEbCDHkF7B-1', '1Muc_-KavLnRePdLM9MfZOzZLDjAu57Iz', '18gI3pkhSJDUK95Snsmb4aaJ68K98PSzp', '1cVt7vEkkhxaYGvS8nrGN6j1G7Bc4MuHe'],
-        ak_icon: '17C0TnWg80ANPnrqloh5FpkNIAuhiD5Cd',
-        bomb: '1ecY2RNs15iDNKL5wGuPiT4yPfkK7jdrk', 
-        boss1: '1E-GvE7N3SHS9Px5ZGi-7nkiVGrEew7we', 
-        boss2: '11fWAlqJyGGGHj3v6dRjWY_Lc6zJ4ZeZj', 
-        boss_bar: '17O80eMEnGBOu89oMkrQ1pnTbHRw9qG0l', 
+        ak_icon: '17C0TnWg80ANPnrqloh5FpkNIAuhiD5Cd', bomb: '1ecY2RNs15iDNKL5wGuPiT4yPfkK7jdrk', 
+        boss1: '1E-GvE7N3SHS9Px5ZGi-7nkiVGrEew7we', boss2: '11fWAlqJyGGGHj3v6dRjWY_Lc6zJ4ZeZj', boss_bar: '17O80eMEnGBOu89oMkrQ1pnTbHRw9qG0l', 
         enemies: [{id:'1dOyDgggITjnrOXNtgNkBRUpFS7I-S3NK', n:'Koray'}, {id:'1LA1tv0ifY6X3qOK3u3ALRI_2Vu8f2USw', n:'Egehan'}, {id:'18d4GvAGyY8Xax5e2zYEtiMsSUdESSU2u', n:'Hüseyin'}, {id:'1EvdSZplwRuKjiPyfHoIvaw3CfcBfK_Iz', n:'Burak'}, {id:'13MphXLBZyzuN2jpcfZ6V2Mrs2d9dE5No', n:'Taha'}]
     };
 
@@ -656,11 +605,22 @@
             this.weapon='PISTOL'; this.hasAK=false; this.isSw=false; this.swFr=0;
             this.shT=0; this.dFr=0; this.anim=0; this.face=1; this.isWalking=false;
             this.head = assets.enemies[Math.floor(Math.random()*assets.enemies.length)];
+            this.targetX = x; this.targetY = y; // Ağdan gelen hedef konum
             if(type==='boss-block') { this.hp=800; this.maxHp=800; this.size=3; }
             if(type==='boss-head') { this.hp=1500; this.maxHp=1500; this.size=8.5; }
         }
         draw(remote=null) {
-            if(remote) { this.x += (remote.x - this.x) * 0.15; this.y += (remote.y - this.y) * 0.15; this.face = remote.face; this.weapon = remote.weapon; this.hp = remote.hp; this.isWalking = remote.isWalking; this.shT = remote.shT; this.maxHp = remote.maxHp || this.maxHp; }
+            if(remote && remote.x !== undefined && remote.y !== undefined) { 
+                this.x += (remote.x - this.x) * 0.25; 
+                this.y += (remote.y - this.y) * 0.25; 
+                this.face = remote.face; this.weapon = remote.weapon; 
+                this.hp = remote.hp; this.isWalking = remote.isWalking; this.shT = remote.shT; 
+            } else if (!this.isP && this.type !== 'remote' && gameMode === 'multi' && !isHost) {
+                // Diğer oyuncular zombilerin konumlarını Host'tan alarak yavaşça eşitler
+                if(this.targetX !== undefined) this.x += (this.targetX - this.x) * 0.15;
+                if(this.targetY !== undefined) this.y += (this.targetY - this.y) * 0.15;
+            }
+
             const p = worldToScreen(this.x, this.y);
             this.anim += 0.12;
             const s = this.size;
@@ -668,15 +628,7 @@
             if (this.isP || this.type==='remote') {
                 let img = null;
                 if(this.hp<=0) { const set = (this.weapon==='AK')?assets.ak_death:assets.p_death; this.dFr+=0.03; img = set[Math.min(Math.floor(this.dFr), set.length-1)]; }
-                else if(this.isSw) { 
-                    img = assets.switch[Math.min(3, Math.floor(this.swFr))]; 
-                    this.swFr+=0.08; 
-                    if(this.swFr>=4) { 
-                        this.weapon=this.swT; 
-                        this.isSw=false; 
-                        if(this.isP) updateAmmoUI(); 
-                    } 
-                }
+                else if(this.isSw) { img = assets.switch[Math.min(3, Math.floor(this.swFr))]; this.swFr+=0.08; if(this.swFr>=4) { this.weapon=this.swT; this.isSw=false; if(this.isP) updateAmmoUI(); } }
                 else if(this.shT>0) { img = (this.weapon==='AK')?assets.ak_shoot:assets.p_shoot; if(!remote) this.shT--; }
                 else { const set = (this.weapon==='AK')?(this.isWalking?assets.ak_walk:assets.ak_idle):(this.isWalking?assets.p_walk:assets.p_idle); img = set[Math.floor(this.anim % set.length)]; }
                 if(img) { ctx.save(); ctx.translate(p.x, p.y); if(this.face===-1) ctx.scale(-1,1); ctx.drawImage(img, -32*s, -60*s, 64*s, 64*s); ctx.restore(); }
@@ -713,38 +665,23 @@
         if(!player) return;
         const w = player.weapon;
         if(isReloading) {
-            document.getElementById('ammo-count').innerText = "YKLNYR";
-            document.getElementById('ammo-count').style.color = "var(--ui-blood)";
+            document.getElementById('ammo-count').innerText = "YKLNYR"; document.getElementById('ammo-count').style.color = "var(--ui-blood)";
         } else {
-            document.getElementById('ammo-count').innerText = ammo[w] + "/" + maxAmmo[w];
-            document.getElementById('ammo-count').style.color = "var(--xp-color)";
+            document.getElementById('ammo-count').innerText = ammo[w] + "/" + maxAmmo[w]; document.getElementById('ammo-count').style.color = "var(--xp-color)";
         }
     }
 
     function startReload() {
-        if(isReloading) return;
-        isReloading = true;
-        const w = player.weapon;
-        const reloadTime = w === 'PISTOL' ? 4000 : 1500; 
-        playSound(w === 'PISTOL' ? 'pistolReload' : 'akReload');
-        updateAmmoUI();
-        
-        reloadTimeout = setTimeout(() => {
-            ammo[w] = maxAmmo[w];
-            isReloading = false;
-            updateAmmoUI();
-        }, reloadTime);
+        if(isReloading) return; isReloading = true; const w = player.weapon; const reloadTime = w === 'PISTOL' ? 4000 : 1500; 
+        playSound(w === 'PISTOL' ? 'pistolReload' : 'akReload'); updateAmmoUI();
+        reloadTimeout = setTimeout(() => { ammo[w] = maxAmmo[w]; isReloading = false; updateAmmoUI(); }, reloadTime);
     }
 
     function triggerWeaponSwitch() {
         if(player.hasAK && !player.isSw && !isReloading) {
-            player.isSw = true; 
-            player.swFr = 0; 
-            player.swT = (player.weapon === 'PISTOL' ? 'AK' : 'PISTOL'); 
-            clearTimeout(reloadTimeout);
-            isReloading = false;
-            playSound(player.swT === 'PISTOL' ? 'pistolReload' : 'akReload');
-            updateAmmoUI(); 
+            player.isSw = true; player.swFr = 0; player.swT = (player.weapon === 'PISTOL' ? 'AK' : 'PISTOL'); 
+            clearTimeout(reloadTimeout); isReloading = false;
+            playSound(player.swT === 'PISTOL' ? 'pistolReload' : 'akReload'); updateAmmoUI(); 
         }
     }
 
@@ -757,25 +694,35 @@
             else { let bombDropCount = Math.floor(Math.random() * 2) + 1; for(let i=0; i<bombDropCount; i++) items.push({ x: e.x + (Math.random()*4-2), y: e.y + (Math.random()*4-2), type: 'BOMB', anim: 0, draw: drawBombItem }); }
             bigBossKills++; 
         }
-        enemies.splice(index, 1);
+        if(index !== -1) enemies.splice(index, 1);
     }
 
     function spawnWave() {
         spawning = true; setTimeout(() => { spawning = false; }, 3000); 
-        if (gameMode === 'multi' && !isHost) return;
+        if (gameMode === 'multi' && !isHost) return; // Sadece Host üretir
         let newEnemies = [];
         let pCount = gameMode === 'multi' ? (Object.keys(otherPlayers).length + 1) : 1;
-        if(wave%5===0) { let e = new Character(player.x+15, player.y+15, false, 'boss-head'); e.id = 'e_' + Math.random().toString(36).substr(2,9); e.maxHp = 1500 * pCount; e.hp = e.maxHp; newEnemies.push(e); }
+        
+        // 5. Dalga Kuralı: Tane sayısı çoğalmaz (sadece 1 adet) FAKAT Canı kişi sayısıyla çarpılır.
+        if(wave%5===0) { 
+            let e = new Character(player.x+15, player.y+15, false, 'boss-head'); 
+            e.id = 'e_' + Math.random().toString(36).substr(2,9); 
+            e.maxHp = 1500 * pCount; // Can ikiye/üçe/dörde katlanıyor
+            e.hp = e.maxHp; 
+            newEnemies.push(e); 
+        }
         else {
-            if(wave%3===0) { for(let i=0; i<pCount; i++) { let e = new Character(player.x-15 + (Math.random()*10-5), player.y-15 + (Math.random()*10-5), false, 'boss-block'); e.id = 'e_' + Math.random().toString(36).substr(2,9); newEnemies.push(e); } }
+            if(wave%3===0) { for(let i=0; i<pCount; i++) { let e = new Character(player.x-15 + (Math.random()*10-5), player.y-15 + (Math.random()*10-5), false, 'boss-block'); e.id = 'e_' + Math.random().toString(36).substr(2,9); e.maxHp = 800; e.hp = e.maxHp; newEnemies.push(e); } }
+            // Normal zombiler kişi sayısıyla çarpılarak çoğalır
             let baseCount = 4 + Math.floor(wave*0.6);
             let totalBot = baseCount * pCount;
             for(let i=0; i<totalBot; i++){ const a=Math.random()*Math.PI*2; let e = new Character(player.x+Math.cos(a)*25, player.y+Math.sin(a)*25); e.id = 'e_' + Math.random().toString(36).substr(2,9); newEnemies.push(e); }
         }
+        
         if (gameMode === 'multi' && currentRoomId) {
             newEnemies.forEach(e => {
                 if (!enemies.find(en => en.id === e.id)) enemies.push(e);
-                if (currentUser) setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'enemies', e.id), { x: e.x, y: e.y, hp: e.hp, maxHp: e.maxHp, type: e.type, size: e.size, speed: e.speed, headIndex: assets.enemies.indexOf(e.head), roomId: currentRoomId }).catch(err => console.error("Bot Spawn Error:", err));
+                if (currentUser) setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'enemies', e.id), { x: e.x, y: e.y, hp: e.hp, maxHp: e.maxHp, type: e.type, size: e.size, speed: e.speed, headIndex: assets.enemies.indexOf(e.head), roomId: currentRoomId }).catch(()=>{});
             });
         }
         else { enemies.push(...newEnemies); }
@@ -783,49 +730,52 @@
     }
 
     function syncOnline() {
-        if(!currentUser || !currentRoomId) return;
+        if(!currentUser || !currentRoomId || !player) return;
         const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'players', currentUser.uid); 
-        setDoc(pRef, { x:player.x, y:player.y, hp:player.hp, face:player.face, weapon:player.weapon, isWalking:player.isWalking, shT:player.shT, ts:Date.now(), name: playerName, roomId: currentRoomId }, { merge: true }).catch(e => console.log(e));
+        setDoc(pRef, { x:player.x, y:player.y, hp:player.hp, face:player.face, weapon:player.weapon, isWalking:player.isWalking, shT:player.shT, ts:Date.now(), name: playerName, roomId: currentRoomId }, { merge: true }).catch(()=>{});
     }
 
     const forceCleanupPlayer = () => { 
         if (currentUser && gameMode === 'multi') { 
             const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'players', currentUser.uid); 
             deleteDoc(pRef).catch(() => {}); 
-            // Eğer odada kimse kalmadıysa ve çıkan kişi son kişiyse odayı sil
-            if (currentRoomId && isHost && Object.keys(otherPlayers).length === 0) {
-                 const rRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', currentRoomId);
-                 deleteDoc(rRef).catch(()=>{});
-            }
         } 
     };
     
     window.addEventListener('beforeunload', forceCleanupPlayer);
     window.addEventListener('pagehide', forceCleanupPlayer);
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') forceCleanupPlayer(); else if (document.visibilityState === 'visible' && gameMode === 'multi') syncOnline(); });
 
     function setupHostSystem() {
         if(!currentRoomId) return;
         const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', currentRoomId);
-        onSnapshot(roomRef, (snap) => {
+        
+        window.unsubscribeRoom = onSnapshot(roomRef, (snap) => {
             const data = snap.data(); 
-            if(!data) {
-                fullResetToMenu();
-                showMsg("Oda kapatıldı veya bulunamadı.");
+            // Odayı Kapatma Kontrolü (Host oyundan çıkarsa tetiklenir)
+            if(!data || data.closed) {
+                if (gameMode === 'multi' && !isHost) {
+                    showMsg("Host odayı dağıttı!");
+                    fullResetToMenu(true);
+                }
                 return;
             }
+            
             const now = Date.now();
-            if (now - data.lastPing > 8000) { 
+            if (now - data.lastPing > 8000 && !data.closed) { 
                 isHost = true; 
                 wave = Math.max(1, wave); 
                 document.getElementById('wave-name').innerText=`DALGA ${wave}`; 
                 if (!gameActive || enemies.length === 0) { gems = []; items = []; bullets = []; enemies = []; placedBombs = []; scorches = []; bigBossKills = 0; } 
                 getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'enemies')).then(s => { s.forEach(d => { if(d.data().roomId === currentRoomId) deleteDoc(d.ref).catch(()=>{}); }); }); 
                 setDoc(roomRef, { hostId: currentUser.uid, lastPing: now, wave: wave }, {merge:true}); 
-                setTimeout(() => { if(isHost) spawnWave(); }, 1500); 
+                setTimeout(() => { if(isHost && enemies.length === 0) spawnWave(); }, 1500); 
             } 
-            else if (now - data.lastPing > 2500) { isHost = true; setDoc(roomRef, { hostId: currentUser.uid, lastPing: now, wave: wave }, {merge: true}); }
-            else { isHost = (data.hostId === currentUser.uid); if (!isHost && data.wave !== wave) { wave = data.wave; document.getElementById('wave-name').innerText=`DALGA ${wave}`; } }
+            else if (now - data.lastPing > 2500) { isHost = true; setDoc(roomRef, { hostId: currentUser.uid, lastPing: now }, {merge: true}); }
+            else { 
+                isHost = (data.hostId === currentUser.uid); 
+                // Dalgaları Eşitle (Sadece Client isen Host'un dalga verisine uy)
+                if (!isHost && data.wave !== wave) { wave = data.wave; document.getElementById('wave-name').innerText=`DALGA ${wave}`; } 
+            }
         }, (err)=>console.error(err));
 
         hostCheckInterval = setInterval(() => { 
@@ -834,21 +784,54 @@
                 updateDoc(roomRef, { lastPing: Date.now(), wave: wave, playerCount: pCount }).catch(()=>{}); 
             } 
         }, 1500);
+
+        // ZOMBİLERİN KAYMASINI ENGELLEYEN HOST AI SİSTEMİ
+        if (window.hostBotSync) clearInterval(window.hostBotSync);
+        window.hostBotSync = setInterval(() => {
+            if (isHost && gameMode === 'multi' && gameActive && currentRoomId) {
+                enemies.forEach(e => {
+                    if (e.hp > 0) {
+                        updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'enemies', e.id), { x: e.x, y: e.y }).catch(()=>{});
+                    }
+                });
+            }
+        }, 400); // Bant genişliği için saniyede 2.5 kez
     }
 
     function setupEnemySync() {
         const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'enemies');
-        onSnapshot(colRef, (snap) => {
+        window.unsubscribeEnemies = onSnapshot(colRef, (snap) => {
             snap.docChanges().forEach(c => {
                 const d = c.doc.data(); 
                 if(d.roomId !== currentRoomId) return;
 
                 const id = c.doc.id;
-                if (c.type === 'added') { if (!enemies.find(e => e.id === id)) { let en = new Character(d.x, d.y, false, d.type, id); en.hp = d.hp; en.maxHp = d.maxHp; en.size = d.size; en.speed = d.speed; if(d.headIndex >= 0) en.head = assets.enemies[d.headIndex]; enemies.push(en); } }
-                else if (c.type === 'modified') { let en = enemies.find(e => e.id === id); if (en) { en.hp = d.hp; en.maxHp = d.maxHp || en.maxHp; } }
-                else if (c.type === 'removed') { let idx = enemies.findIndex(e => e.id === id); if (idx !== -1) killEnemyLocal(enemies[idx], idx); }
+                if (c.type === 'added') { 
+                    if (!enemies.find(e => e.id === id)) { 
+                        let en = new Character(d.x, d.y, false, d.type, id); 
+                        en.hp = d.hp; en.maxHp = d.maxHp || en.maxHp; en.size = d.size; en.speed = d.speed; 
+                        en.targetX = d.x; en.targetY = d.y;
+                        if(d.headIndex >= 0) en.head = assets.enemies[d.headIndex]; 
+                        enemies.push(en); 
+                    } 
+                }
+                else if (c.type === 'modified') { 
+                    let en = enemies.find(e => e.id === id); 
+                    if (en) { 
+                        en.hp = d.hp; // Biri vurunca herkeste can düşer
+                        en.maxHp = d.maxHp || en.maxHp; 
+                        if (!isHost) {
+                            en.targetX = d.x; 
+                            en.targetY = d.y; 
+                        }
+                    } 
+                }
+                else if (c.type === 'removed') { 
+                    let idx = enemies.findIndex(e => e.id === id); 
+                    if (idx !== -1) killEnemyLocal(enemies[idx], idx); 
+                }
             });
-        });
+        }, (err) => console.error(err));
     }
 
     function loop() {
@@ -858,17 +841,26 @@
         camera.x+=(player.x-camera.x)*0.1; camera.y+=(player.y-camera.y)*0.1;
         if(camera.shake>0) camera.shake*=0.9;
         const nowTime = Date.now();
-        for(const pid in otherPlayers) { if (nowTime - otherPlayers[pid].lastSeenLocal > 3000) { if (isHost) deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'players', pid)).catch(()=>{}); delete otherPlayers[pid]; } }
+        
+        // OYUNCU SİLİNME HATASI ÇÖZÜMÜ: Sadece Lokal saate güven. Asla başkasını db'den silme, sadece görüntüden kaldır.
+        for(const pid in otherPlayers) { 
+            if (nowTime - otherPlayers[pid].lastSeenLocal > 6000) { 
+                delete otherPlayers[pid]; 
+            } 
+        }
+        
         scorches.forEach(sc => { const p = worldToScreen(sc.x, sc.y); ctx.save(); ctx.translate(p.x, p.y); ctx.scale(1, 0.5); ctx.beginPath(); ctx.arc(0, 0, 5 * (ISO_W/2), 0, Math.PI * 2); ctx.fillStyle = 'rgba(20, 10, 0, 0.6)'; ctx.fill(); ctx.beginPath(); ctx.arc(0, 0, 2 * (ISO_W/2), 0, Math.PI * 2); ctx.fillStyle = 'rgba(10, 5, 0, 0.8)'; ctx.fill(); ctx.restore(); });
         let rq = [...deco, ...enemies, ...gems, ...items, player, ...Object.values(otherPlayers)];
         rq.sort((a,b)=>(a.x+a.y)-(b.x+b.y));
         rq.forEach(it=>{if(it.draw)it.draw(it.remoteData||null); else drawDeco(it);});
+        
         for (let i = placedBombs.length - 1; i >= 0; i--) {
             let b = placedBombs[i]; b.timer--; b.anim += 0.3; const p = worldToScreen(b.x, b.y);
             ctx.save(); ctx.translate(p.x, p.y); ctx.scale(1, 0.5); ctx.beginPath(); ctx.arc(0, 0, 5 * (ISO_W/2), 0, Math.PI * 2); ctx.fillStyle = 'rgba(255, 68, 68, 0.2)'; ctx.fill(); ctx.strokeStyle = 'rgba(255, 68, 68, 0.6)'; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
             if (assets.bomb) { ctx.save(); ctx.translate(p.x, p.y - 10); ctx.rotate(b.anim); ctx.drawImage(assets.bomb, -12, -12, 24, 24); ctx.restore(); }
             if (b.timer <= 0) { camera.shake = 30; scorches.push({x: b.x, y: b.y}); enemies.forEach((en, ei) => { if (Math.sqrt((en.x - b.x)**2 + (en.y - b.y)**2) <= 5) { en.hp -= 400; if (gameMode === 'multi') { const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', en.id); if (en.hp <= 0) { killEnemyLocal(en, ei); if (currentUser) deleteDoc(eRef).catch(()=>{}); } else if (currentUser) updateDoc(eRef, { hp: increment(-400) }).catch(()=>{}); } else { if (en.hp <= 0) killEnemyLocal(en, ei); } } }); placedBombs.splice(i, 1); }
         }
+        
         let activeBoss = enemies.find(e => e.type === 'boss-head'); let bossBarContainer = document.getElementById('boss-bar-container');
         if (activeBoss && activeBoss.hp > 0) { bossBarContainer.style.display = 'block'; let hpPercent = Math.max(0, (activeBoss.hp / activeBoss.maxHp) * 100); document.getElementById('boss-bar-fill').style.width = hpPercent + '%'; } else { bossBarContainer.style.display = 'none'; }
         
@@ -876,12 +868,42 @@
             for(let i = items.length - 1; i >= 0; i--) { let it = items[i]; if(Math.sqrt((it.x-player.x)**2+(it.y-player.y)**2)<1.5) { if(it.type === 'AK'){ player.hasAK=true; document.getElementById('switch-btn').style.display='flex'; } else if(it.type === 'BOMB'){ playerBombCount++; updateBombUI(); } items.splice(i,1); } }
             gems.forEach((g,i)=>{if(Math.sqrt((g.x-player.x)**2+(g.y-player.y)**2)<1.2){xp+=g.v; gems.splice(i,1);}});
             if(xp>=nextXp){level++; xp=0; nextXp*=1.5; player.hp=100; document.getElementById('lvl').innerText=level;}
+            
             let mx=joyInput.x, my=joyInput.y; if(keys['KeyW'])my-=1; if(keys['KeyS'])my+=1; if(keys['KeyA'])mx-=1; if(keys['KeyD'])mx+=1;
             player.isWalking=(mx!==0||my!==0); if(player.isWalking){ player.x+=(mx+my)*player.speed; player.y+=(my-mx)*player.speed; if(mx!==0)player.face=mx>0?1:-1; }
-            enemies.forEach(e=>{ let nearest = player; let minDist = Math.sqrt((player.x-e.x)**2+(player.y-e.y)**2); if (gameMode === 'multi') { Object.values(otherPlayers).forEach(op => { let d = Math.sqrt((op.x-e.x)**2+(op.y-e.y)**2); if (d < minDist) { minDist = d; nearest = op; } }); } if(minDist > 0.1) { e.x += (nearest.x - e.x) / minDist * e.speed; e.y += (nearest.y - e.y) / minDist * e.speed; } if(minDist < 0.8 * e.size && nearest === player) { player.hp -= 0.3; } });
+            
+            // BOT YAPAY ZEKASI
+            let allTargets = [player, ...Object.values(otherPlayers)];
+            enemies.forEach(e => {
+                // Diğer oyuncularda botlar Host'un emriyle hizalanır
+                if (!isHost && gameMode === 'multi') {
+                    if (e.targetX !== undefined) e.x += (e.targetX - e.x) * 0.15;
+                    if (e.targetY !== undefined) e.y += (e.targetY - e.y) * 0.15;
+                }
+
+                // AI Yalnızca Singleplayer VEYA Multiplayer'da Host ise çalışır
+                if (gameMode === 'single' || (gameMode === 'multi' && isHost)) {
+                    let nearest = null; 
+                    let minDist = 9999;
+                    allTargets.forEach(op => {
+                        if (op.hp > 0) {
+                            let d = Math.sqrt((op.x-e.x)**2 + (op.y-e.y)**2); 
+                            if (d < minDist) { minDist = d; nearest = op; }
+                        }
+                    });
+
+                    if(nearest && minDist > 0.1) { 
+                        e.x += (nearest.x - e.x) / minDist * e.speed; 
+                        e.y += (nearest.y - e.y) / minDist * e.speed; 
+                    } 
+                }
+                
+                // Hasar Alma Lokal İşler
+                let distToMe = Math.sqrt((player.x-e.x)**2 + (player.y-e.y)**2);
+                if(distToMe < 0.8 * e.size) { player.hp -= 0.3; } 
+            });
         } else if(player.dFr>=2.5){ gameActive=false; document.getElementById('game-over').style.display='flex'; }
         
-        // Mermi, Ateş Etme ve Kesintisiz Ses Mantığı
         if(isFiring && !player.isSw && player.hp > 0) { 
             if(!isReloading) {
                 if(ammo[player.weapon] <= 0) {
@@ -910,13 +932,39 @@
 
         bullets.forEach((b,i)=>{
             let d=Math.sqrt((b.tx-b.x)**2+(b.ty-b.y)**2); b.x+=(b.tx-b.x)/d*0.6; b.y+=(b.ty-b.y)/d*0.6; b.life--; let p=worldToScreen(b.x,b.y); ctx.fillStyle='#fff'; ctx.fillRect(p.x-2, p.y-2, 4, 4);
-            enemies.forEach((e,ei)=>{ if(b.life > 0 && Math.sqrt((b.x-e.x)**2+(b.y-e.y)**2)<1.2*e.size){ b.life = 0; e.hp -= b.dmg; if (gameMode === 'multi') { const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', e.id); if (e.hp <= 0) { killEnemyLocal(e, ei); if (currentUser) deleteDoc(eRef).catch(()=>{}); } else if (currentUser) updateDoc(eRef, { hp: increment(-b.dmg) }).catch(()=>{}); } else { if (e.hp <= 0) killEnemyLocal(e, ei); } } }); if(b.life<=0)bullets.splice(i,1);
+            enemies.forEach((e,ei)=>{ 
+                if(b.life > 0 && Math.sqrt((b.x-e.x)**2+(b.y-e.y)**2)<1.2*e.size){ 
+                    b.life = 0; 
+                    e.hp -= b.dmg; 
+                    if (gameMode === 'multi') { 
+                        const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', e.id); 
+                        if (e.hp <= 0) { 
+                            killEnemyLocal(e, ei); 
+                            if (currentUser) deleteDoc(eRef).catch(()=>{}); 
+                        } else if (currentUser) {
+                            updateDoc(eRef, { hp: increment(-b.dmg) }).catch(()=>{}); 
+                        }
+                    } else { 
+                        if (e.hp <= 0) killEnemyLocal(e, ei); 
+                    } 
+                } 
+            }); 
+            if(b.life<=0)bullets.splice(i,1);
         });
         document.getElementById('hp').innerText=Math.max(0, Math.ceil(player.hp)); document.getElementById('score').innerText=score; document.getElementById('xp-fill').style.width=(xp/nextXp*100)+'%';
         if(aoeCooldown>0) aoeCooldown--; document.getElementById('aoe-cd-overlay').style.height=(aoeCooldown/MAX_AOE_CD*100)+'%';
         if(bombCooldown>0) bombCooldown--; document.getElementById('bomb-cd-overlay').style.height=(bombCooldown/180*100)+'%';
-        if(enemies.length === 0 && player.hp > 0 && !spawning) { if (gameMode === 'single') { wave++; spawnWave(); } else if (isHost) { wave++; spawnWave(); } }
-        requestAnimationFrame(loop);
+        
+        // Host Dalga Geçiçi Kontrolü
+        if(enemies.length === 0 && player.hp > 0 && !spawning) { 
+            if (gameMode === 'single') { 
+                wave++; spawnWave(); 
+            } else if (isHost) { 
+                wave++; spawnWave(); 
+                updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'rooms', currentRoomId), { wave: wave }).catch(()=>{});
+            } 
+        }
+        if (gameActive) requestAnimationFrame(loop);
     }
 
     function triggerAOE() { if (aoeCooldown <= 0) { camera.shake = 15; enemies.forEach((en, ei) => { if (Math.sqrt((en.x - player.x)**2 + (en.y - player.y)**2) < 8) { en.hp -= 500; if (gameMode === 'multi') { const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', en.id); if (en.hp <= 0) { killEnemyLocal(en, ei); if (currentUser) deleteDoc(eRef).catch(()=>{}); } else if (currentUser) updateDoc(eRef, { hp: increment(-500) }).catch(()=>{}); } else { if (en.hp <= 0) killEnemyLocal(en, ei); } } }); aoeCooldown = MAX_AOE_CD; } }
@@ -965,8 +1013,7 @@
     function beginOnlinePlay(forceSpawn=false) {
         hideStatusIndicator();
         if (!gameActive) { gameActive = true; loop(); }
-        if (gameMode === 'multi' && forceSpawn && enemies.length === 0) {
-            isHost = true;
+        if (gameMode === 'multi' && forceSpawn && enemies.length === 0 && isHost) {
             wave = Math.max(1, wave);
             document.getElementById('wave-name').innerText = `DALGA ${wave}`;
             spawnWave();
@@ -975,40 +1022,54 @@
 
     window.forceStartGame = () => { beginOnlinePlay(true); };
 
-    // TEKRAR DENE (ÖLÜNCE)
     window.restartGame = () => {
         if(gameMode === 'multi') {
             gems = []; items = []; bullets = []; placedBombs = []; scorches = [];
-            initGameFlow();
+            // Multi'deyken komple çıkmayız, sadece HP ve durumu sıfırlayıp odaya devam ederiz.
+            player.hp = 100;
+            player.dFr = 0;
+            player.x = 0;
+            player.y = 0;
+            document.getElementById('game-over').style.display = 'none';
+            document.getElementById('boss-bar-container').style.display = 'none';
+            if (!gameActive) { gameActive = true; loop(); }
         } else {
             forceCleanupPlayer();
             if (hostCheckInterval) { clearInterval(hostCheckInterval); hostCheckInterval = null; }
-            gameActive = false;
-            isFiring = false;
-            joyInput = {x:0, y:0};
-            keys = {};
-            currentUser = null;
-            onlineStarted = false;
-            otherPlayers = {};
+            if (syncIntervalId) { clearInterval(syncIntervalId); syncIntervalId = null; }
+            if (window.hostBotSync) { clearInterval(window.hostBotSync); window.hostBotSync = null; }
+            gameActive = false; isFiring = false; joyInput = {x:0, y:0}; keys = {}; currentUser = null; onlineStarted = false; otherPlayers = {};
             document.getElementById('game-over').style.display = 'none';
             document.getElementById('boss-bar-container').style.display = 'none';
-            hideStatusIndicator();
-            initGameFlow();
+            hideStatusIndicator(); initGameFlow();
         }
     };
 
-    // TAMAMEN ANA MENÜYE DÖN
-    window.fullResetToMenu = () => {
-        forceCleanupPlayer();
+    // HOST ÇIKIŞ YAPARSA ODAYI KAPATIR VE HERKESİ ATAR
+    window.fullResetToMenu = (eventOrKicked = false) => {
+        let isKicked = eventOrKicked === true;
+
+        if (currentUser && gameMode === 'multi') {
+            const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'players', currentUser.uid);
+            deleteDoc(pRef).catch(()=>{});
+        }
+
+        // Eğer Host çıkıyorsa odayı "Kapalı" olarak işaretle ki diğerleri atılsın
+        if (!isKicked && gameMode === 'multi' && currentRoomId && isHost) {
+            const rRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', currentRoomId);
+            updateDoc(rRef, { closed: true }).catch(()=>{});
+            setTimeout(() => deleteDoc(rRef).catch(()=>{}), 2000);
+        }
+
         if (hostCheckInterval) { clearInterval(hostCheckInterval); hostCheckInterval = null; }
         if (unsubscribeLobby) { unsubscribeLobby(); unsubscribeLobby = null; }
-        gameActive = false;
-        isFiring = false;
-        currentRoomId = null;
-        joyInput = {x:0, y:0};
-        keys = {};
-        onlineStarted = false; // Burası önemli! Zaten bağlandı logiğini sıfırlar.
-        otherPlayers = {};
+        if (syncIntervalId) { clearInterval(syncIntervalId); syncIntervalId = null; }
+        if (window.hostBotSync) { clearInterval(window.hostBotSync); window.hostBotSync = null; }
+        if (window.unsubscribeRoom) { window.unsubscribeRoom(); window.unsubscribeRoom = null; }
+        if (window.unsubscribePlayers) { window.unsubscribePlayers(); window.unsubscribePlayers = null; }
+        if (window.unsubscribeEnemies) { window.unsubscribeEnemies(); window.unsubscribeEnemies = null; }
+        
+        gameActive = false; isFiring = false; currentRoomId = null; joyInput = {x:0, y:0}; keys = {}; onlineStarted = false; otherPlayers = {}; isHost = false;
         document.getElementById('game-over').style.display = 'none';
         document.getElementById('ui-overlay').style.display = 'none';
         document.getElementById('boss-bar-container').style.display = 'none';
@@ -1021,7 +1082,6 @@
         if (!u) return;
         currentUser = u;
 
-        // Eğer zaten bağlıysak (Örneğin Tekrar Dene tuşuna basıldıysa)
         if (onlineStarted) {
             document.getElementById('online-status').innerText = `ONLINE | ${playerName}`;
             if(currentRoomId) {
@@ -1029,12 +1089,10 @@
                     if(rDoc.exists()) document.getElementById('online-status').innerText = `KOD: ${rDoc.data().code} | ${playerName} ${isHost ? "(Kurucu)" : ""}`;
                 });
             }
-            // Zaten bağlı olduğu için bekleme ekranında asılı kalmadan direkt oyuna gir.
             beginOnlinePlay(isHost);
             return;
         }
 
-        // İlk defa bağlanılıyorsa:
         onlineStarted = true;
         document.getElementById('online-status').innerText = `ONLINE | ${playerName}`;
         
@@ -1044,31 +1102,30 @@
             });
         }
         
-        syncOnline(); 
+        if (syncIntervalId) clearInterval(syncIntervalId);
+        syncIntervalId = setInterval(syncOnline, 250); 
+        syncOnline();
         
         const col = collection(db, 'artifacts', appId, 'public', 'data', 'players');
-        onSnapshot(col, snap => {
+        window.unsubscribePlayers = onSnapshot(col, snap => {
             snap.docChanges().forEach(c => {
                 const id = c.doc.id;
                 if(id === u.uid) return;
                 const d = c.doc.data();
                 if(d.roomId !== currentRoomId) return;
 
-                if(c.type === 'removed') { delete otherPlayers[id]; }
+                if(c.type === 'removed') { 
+                    delete otherPlayers[id]; 
+                }
                 else {
-                    if(Date.now() - d.ts > 10000) {
-                        if (isHost) deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'players', id)).catch(()=>{});
-                        delete otherPlayers[id];
-                    } else {
-                        if(!otherPlayers[id]) otherPlayers[id] = new Character(d.x, d.y, false, 'remote', id);
-                        otherPlayers[id].remoteData = d;
-                        otherPlayers[id].lastSeenLocal = Date.now();
-                    }
+                    if(!otherPlayers[id]) otherPlayers[id] = new Character(d.x, d.y, false, 'remote', id);
+                    otherPlayers[id].remoteData = d;
+                    // Clock Skew: Veri geldiği an lokal saati yenileriz, erken silinmeyi engelleriz.
+                    otherPlayers[id].lastSeenLocal = Date.now(); 
                 }
             });
-        });
+        }, (err) => console.error(err));
         
-        setInterval(syncOnline, 300);
         setupHostSystem();
         setupEnemySync();
         
@@ -1081,39 +1138,56 @@
         }
     }
 
-    // MULTIPLAYER LOBİ AKIŞI
     window.goToLobby = async () => {
         let n = document.getElementById('player-name-input').value.trim(); 
         if(!n) n = "OYUNCU_" + Math.floor(Math.random()*1000); 
         playerName = n; 
+        
         document.getElementById('name-input-screen').style.display='none'; 
-        document.getElementById('lobby-screen').style.display='flex';
-        gameMode = 'multi';
+        
+        const status = document.getElementById('status-indicator');
+        status.style.display = 'block';
+        status.style.visibility = 'visible';
+        document.getElementById('status-text').innerText = "SİSTEME BAĞLANILIYOR...";
+        document.getElementById('status-subtext').innerText = "Kimlik doğrulanıyor...";
         
         try {
-            if(!auth.currentUser) await signInAnonymously(auth);
+            if (!auth.currentUser) {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            }
             currentUser = auth.currentUser;
-        } catch(e) { console.error(e); }
-
-        const col = collection(db, 'artifacts', appId, 'public', 'data', 'rooms');
-        if(unsubscribeLobby) unsubscribeLobby();
-        unsubscribeLobby = onSnapshot(col, snap => {
-            const listContainer = document.getElementById('room-list-container');
-            listContainer.innerHTML = '';
-            let roomsFound = false;
-            const now = Date.now();
-            snap.docs.forEach(docSnap => {
-                const data = docSnap.data();
-                if(now - data.lastPing > 10000 || data.isPrivate) return;
-                roomsFound = true;
-                const div = document.createElement('div');
-                div.className = 'room-item';
-                div.innerHTML = `<span>${data.name}</span> <span style="color: var(--ui-gold);">(${data.playerCount}/${data.maxPlayers})</span>`;
-                div.onclick = () => joinRoom(docSnap.id, data);
-                listContainer.appendChild(div);
+            
+            status.style.display = 'none';
+            document.getElementById('lobby-screen').style.display='flex';
+            gameMode = 'multi';
+            
+            const col = collection(db, 'artifacts', appId, 'public', 'data', 'rooms');
+            if(unsubscribeLobby) unsubscribeLobby();
+            unsubscribeLobby = onSnapshot(col, snap => {
+                const listContainer = document.getElementById('room-list-container');
+                listContainer.innerHTML = '';
+                let roomsFound = false;
+                const now = Date.now();
+                snap.docs.forEach(docSnap => {
+                    const data = docSnap.data();
+                    if(now - data.lastPing > 15000 || data.isPrivate || data.closed) return;
+                    roomsFound = true;
+                    const div = document.createElement('div');
+                    div.className = 'room-item';
+                    div.innerHTML = `<span>${data.name}</span> <span style="color: var(--ui-gold);">(${data.playerCount}/${data.maxPlayers})</span>`;
+                    div.onclick = () => joinRoom(docSnap.id, data);
+                    listContainer.appendChild(div);
+                });
+                if(!roomsFound) listContainer.innerHTML = '<div style="font-size: 8px; color: #777; margin-top: 10px; text-align:center;">AKTİF AÇIK ODA YOK</div>';
             });
-            if(!roomsFound) listContainer.innerHTML = '<div style="font-size: 8px; color: #777; margin-top: 10px; text-align:center;">AKTİF AÇIK ODA YOK</div>';
-        });
+        } catch(e) { 
+            console.error(e); showMsg("Kimlik Doğrulama Hatası!"); 
+            status.style.display = 'none'; document.getElementById('name-input-screen').style.display='flex'; 
+        }
     };
 
     window.joinRoom = async (roomId, data=null) => {
@@ -1123,45 +1197,28 @@
                 let found = false;
                 snap.docs.forEach(d => {
                     const r = d.data();
-                    if(r.code === roomId && (Date.now() - r.lastPing < 10000)) {
-                        roomId = d.id; data = r; found = true;
-                    }
+                    if(r.code === roomId && !r.closed) { roomId = d.id; data = r; found = true; }
                 });
-                if(!found) { showMsg("Oda bulunamadı veya süresi dolmuş."); return; }
+                if(!found) { showMsg("Oda bulunamadı veya kapatılmış."); return; }
             } catch(e) { console.error(e); return; }
         }
         if(data.playerCount >= data.maxPlayers) { showMsg("Oda dolu!"); return; }
         if(unsubscribeLobby) { unsubscribeLobby(); unsubscribeLobby = null; }
-        currentRoomId = roomId;
-        isHost = false;
+        currentRoomId = roomId; isHost = false;
         document.getElementById('lobby-screen').style.display='none';
         initGameFlow();
     };
 
     window.joinByCode = () => {
         const code = document.getElementById('room-code-input').value.trim().toUpperCase();
-        if(code.length === 5) joinRoom(code);
-        else showMsg("Geçerli bir 5 haneli kod girin.");
+        if(code.length === 5) joinRoom(code); else showMsg("Geçerli 5 haneli kod girin.");
     };
 
-    window.showCreateRoom = () => {
-        document.getElementById('lobby-screen').style.display='none';
-        document.getElementById('create-room-screen').style.display='flex';
-    };
+    window.showCreateRoom = () => { document.getElementById('lobby-screen').style.display='none'; document.getElementById('create-room-screen').style.display='flex'; };
+    window.backToLobby = () => { document.getElementById('create-room-screen').style.display='none'; document.getElementById('lobby-screen').style.display='flex'; };
+    window.backToMenuFromLobby = () => { if(unsubscribeLobby) { unsubscribeLobby(); unsubscribeLobby = null; } document.getElementById('lobby-screen').style.display='none'; document.getElementById('main-menu').style.display='flex'; };
 
-    window.backToLobby = () => {
-        document.getElementById('create-room-screen').style.display='none';
-        document.getElementById('lobby-screen').style.display='flex';
-    };
-
-    window.backToMenuFromLobby = () => {
-        if(unsubscribeLobby) { unsubscribeLobby(); unsubscribeLobby = null; }
-        document.getElementById('lobby-screen').style.display='none';
-        document.getElementById('main-menu').style.display='flex';
-    };
-
-    // Bekleme engellendi, veritabanı yanıtı beklenmeden odaya geçiliyor.
-    window.confirmCreateRoom = () => {
+    window.confirmCreateRoom = async () => {
         const maxP = parseInt(document.getElementById('room-max-players').value);
         const isPriv = document.getElementById('room-privacy').value === 'private';
         const code = Math.random().toString(36).substring(2,7).toUpperCase();
@@ -1169,16 +1226,15 @@
         
         const roomData = { name: playerName + "'s Room", hostId: currentUser.uid, maxPlayers: maxP, isPrivate: isPriv, code: code, playerCount: 1, lastPing: Date.now(), wave: 1 };
         
-        // await yok, arka planda odayı oluşturur
-        setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'rooms', newRoomId), roomData).catch(e => {
-            showMsg("Oda kaydedilirken hata!"); console.error(e);
-        });
-
-        if(unsubscribeLobby) { unsubscribeLobby(); unsubscribeLobby = null; }
-        currentRoomId = newRoomId;
-        isHost = true;
         document.getElementById('create-room-screen').style.display='none';
-        initGameFlow();
+        
+        try {
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'rooms', newRoomId), roomData);
+            if(unsubscribeLobby) { unsubscribeLobby(); unsubscribeLobby = null; }
+            currentRoomId = newRoomId; isHost = true; initGameFlow();
+        } catch(e) {
+            console.error(e); showMsg("Oda kurulamadı! Yetki reddedildi."); document.getElementById('create-room-screen').style.display='flex';
+        }
     };
 
     window.startGame = (mode) => {
@@ -1190,46 +1246,23 @@
     window.backToMenu = () => { document.getElementById('name-input-screen').style.display='none'; document.getElementById('main-menu').style.display='flex'; playMenuMusic(); };
 
     async function initGameFlow() {
-        stopMenuMusic(); // OYUNA BAŞLADIĞINDA MÜZİK KESİN OLARAK KAPANIR
-        gameActive = false; 
-        document.getElementById('main-menu').style.display='none'; 
-        document.getElementById('game-over').style.display='none';
-        document.getElementById('ui-overlay').style.display='block';
+        stopMenuMusic(); gameActive = false; 
+        document.getElementById('main-menu').style.display='none'; document.getElementById('lobby-screen').style.display='none'; 
+        document.getElementById('game-over').style.display='none'; document.getElementById('ui-overlay').style.display='block';
         player = new Character(0,0,true);
         for(let i=0; i<60; i++) deco.push({x:Math.random()*120-60, y:Math.random()*120-60, t:['cactus','rock','dune'][Math.floor(Math.random()*3)]});
         
-        ammo = { PISTOL: 12, AK: 36 };
-        isReloading = false;
-        clearTimeout(reloadTimeout);
-        updateAmmoUI();
-
+        ammo = { PISTOL: 12, AK: 36 }; isReloading = false; clearTimeout(reloadTimeout); updateAmmoUI();
         gems = []; items = []; bullets = []; enemies = []; placedBombs = []; scorches = []; playerBombCount = 0; bombCooldown = 0; bigBossKills = 0; updateBombUI();
         
         if(gameMode==='multi') {
-            // Eğer önceden zaten bağlıysa bağlantı ekranını hiç gösterme!
             if (!onlineStarted) {
                 const status = document.getElementById('status-indicator');
-                status.style.visibility = 'visible';
-                status.style.pointerEvents = 'auto';
-                status.style.setProperty('display', 'block', 'important');
-                document.getElementById('status-text').innerText = "ONLINE BAĞLANTI KURULUYOR...";
-                document.getElementById('status-subtext').innerText = "Sunucu bekleniyor...";
+                status.style.visibility = 'visible'; status.style.pointerEvents = 'auto'; status.style.setProperty('display', 'block', 'important');
+                document.getElementById('status-text').innerText = "ONLINE BAĞLANTI KURULUYOR..."; document.getElementById('status-subtext').innerText = "Sunucu bekleniyor...";
             }
-            
-            try {
-                if(currentUser) handleOnlineUser(currentUser);
-                else {
-                    const login = await signInAnonymously(auth);
-                    await handleOnlineUser(login.user);
-                    onAuthStateChanged(auth, u => { if(u) handleOnlineUser(u); });
-                }
-            } catch(e) { 
-                if(!onlineStarted) {
-                    document.getElementById('status-text').innerText = "BAĞLANTI HATASI!"; 
-                    document.getElementById('status-subtext').innerText = "Yerel başlatılıyor..."; 
-                    setTimeout(() => beginOnlinePlay(true), 800); 
-                }
-            }
+            if(currentUser) { await handleOnlineUser(currentUser); } 
+            else { showMsg("Oturum açılamadı, menüye dönülüyor."); fullResetToMenu(); }
         } else { spawnWave(); gameActive = true; loop(); }
     }
 
@@ -1237,21 +1270,13 @@
     window.addEventListener('resize', resize); resize();
     function isInside(touch, rect) { return touch.clientX >= rect.left && touch.clientX <= rect.right && touch.clientY >= rect.top && touch.clientY <= rect.bottom; }
     
-    // Mobilden dokunuş kontrolü
+    // Mobil Kontrol
     window.addEventListener('touchstart', e => { 
         [...e.changedTouches].forEach(t => { 
-            if(t.clientX < width/2 && !joyTouchId){ 
-                joyTouchId = t.identifier; handleJoy(t); 
-            } else { 
-                const fr = document.getElementById('fire-btn').getBoundingClientRect(); 
-                const ar = document.getElementById('aoe-btn').getBoundingClientRect(); 
-                const sr = document.getElementById('switch-btn').getBoundingClientRect(); 
-                const br = document.getElementById('bomb-btn').getBoundingClientRect(); 
-                
-                if(isInside(t, fr)) isFiring = true; 
-                else if(isInside(t, ar)) triggerAOE(); 
-                else if(isInside(t, sr)) triggerWeaponSwitch(); 
-                else if(isInside(t, br)) placeBomb(); 
+            if(t.clientX < width/2 && !joyTouchId){ joyTouchId = t.identifier; handleJoy(t); } 
+            else { 
+                const fr = document.getElementById('fire-btn').getBoundingClientRect(); const ar = document.getElementById('aoe-btn').getBoundingClientRect(); const sr = document.getElementById('switch-btn').getBoundingClientRect(); const br = document.getElementById('bomb-btn').getBoundingClientRect(); 
+                if(isInside(t, fr)) isFiring = true; else if(isInside(t, ar)) triggerAOE(); else if(isInside(t, sr)) triggerWeaponSwitch(); else if(isInside(t, br)) placeBomb(); 
             } 
         }); 
     });
@@ -1259,14 +1284,8 @@
     window.addEventListener('touchmove', e => { [...e.changedTouches].forEach(t => { if(t.identifier===joyTouchId) handleJoy(t); }); });
     function handleJoy(t) { const r=document.getElementById('joy-zone').getBoundingClientRect(); const cx=r.left+r.width/2, cy=r.top+r.height/2; let dx=t.clientX-cx, dy=t.clientY-cy; const d=Math.min(Math.sqrt(dx*dx+dy*dy), 30); const a=Math.atan2(dy,dx); joyInput.x=Math.cos(a)*(d/30); joyInput.y=Math.sin(a)*(d/30); document.getElementById('knob').style.left=(32+Math.cos(a)*d)+'px'; document.getElementById('knob').style.top=(32+Math.sin(a)*d)+'px'; }
     
-    // Klavye kontrolü
-    window.addEventListener('keydown', e => { 
-        keys[e.code]=true; 
-        if(e.code==='Space') isFiring=true; 
-        if(e.code==='KeyR') triggerAOE(); 
-        if(e.code==='KeyQ') triggerWeaponSwitch(); 
-        if(e.code==='KeyU') placeBomb(); 
-    });
+    // Klavye Kontrol
+    window.addEventListener('keydown', e => { keys[e.code]=true; if(e.code==='Space') isFiring=true; if(e.code==='KeyR') triggerAOE(); if(e.code==='KeyQ') triggerWeaponSwitch(); if(e.code==='KeyU') placeBomb(); });
     window.addEventListener('keyup', e => { keys[e.code]=false; if(e.code==='Space')isFiring=false; });
 
     loadAssets();
