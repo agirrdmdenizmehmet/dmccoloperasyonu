@@ -68,6 +68,7 @@
             pointer-events: none;
         }
 
+
         .menu-dune {
             position: absolute;
             left: 0;
@@ -571,11 +572,12 @@
     let gameMode = 'single', isHost = false, spawning = false, hostCheckInterval = null, onlineStarted = false;
     let playerName = "OYUNCU", currentRoomId = null, unsubscribeLobby = null;
     
-    // Listener Cleanups
+    // Güvenli Dinleyici Kapatıcıları (Çakışmayı Engeller)
     window.hostBotSync = null;
     window.unsubscribeRoom = null;
     window.unsubscribePlayers = null;
     window.unsubscribeEnemies = null;
+    window.lastHostPingTimeLocal = null;
 
     const MAX_AOE_CD = 1800, ISO_W = 64, ISO_H = 32;
 
@@ -605,18 +607,18 @@
             this.weapon='PISTOL'; this.hasAK=false; this.isSw=false; this.swFr=0;
             this.shT=0; this.dFr=0; this.anim=0; this.face=1; this.isWalking=false;
             this.head = assets.enemies[Math.floor(Math.random()*assets.enemies.length)];
-            this.targetX = x; this.targetY = y; // Ağdan gelen hedef konum
+            this.targetX = x; this.targetY = y; 
             if(type==='boss-block') { this.hp=800; this.maxHp=800; this.size=3; }
             if(type==='boss-head') { this.hp=1500; this.maxHp=1500; this.size=8.5; }
         }
         draw(remote=null) {
             if(remote && remote.x !== undefined && remote.y !== undefined) { 
-                this.x += (remote.x - this.x) * 0.25; 
-                this.y += (remote.y - this.y) * 0.25; 
+                this.x += (Number(remote.x) - this.x) * 0.25; 
+                this.y += (Number(remote.y) - this.y) * 0.25; 
                 this.face = remote.face; this.weapon = remote.weapon; 
                 this.hp = remote.hp; this.isWalking = remote.isWalking; this.shT = remote.shT; 
             } else if (!this.isP && this.type !== 'remote' && gameMode === 'multi' && !isHost) {
-                // Diğer oyuncular zombilerin konumlarını Host'tan alarak yavaşça eşitler
+                // Sadece Client isek zombi pozisyonunu Host'a göre eşitleriz (Kayma çözümü)
                 if(this.targetX !== undefined) this.x += (this.targetX - this.x) * 0.15;
                 if(this.targetY !== undefined) this.y += (this.targetY - this.y) * 0.15;
             }
@@ -699,15 +701,16 @@
 
     function spawnWave() {
         spawning = true; setTimeout(() => { spawning = false; }, 3000); 
-        if (gameMode === 'multi' && !isHost) return; // Sadece Host üretir
+        if (gameMode === 'multi' && !isHost) return; // Zombileri SADECE Host üretir
         let newEnemies = [];
         let pCount = gameMode === 'multi' ? (Object.keys(otherPlayers).length + 1) : 1;
         
-        // 5. Dalga Kuralı: Tane sayısı çoğalmaz (sadece 1 adet) FAKAT Canı kişi sayısıyla çarpılır.
+        // 5. Dalga Kuralı: Boss sayısı ÇOĞALMAZ (sadece 1 adet). SADECE CANI kişi sayısıyla ve dalgayla çarpılır.
         if(wave%5===0) { 
             let e = new Character(player.x+15, player.y+15, false, 'boss-head'); 
             e.id = 'e_' + Math.random().toString(36).substr(2,9); 
-            e.maxHp = 1500 * pCount; // Can ikiye/üçe/dörde katlanıyor
+            let waveMultiplier = Math.floor(wave / 5) || 1;
+            e.maxHp = 1500 * waveMultiplier * pCount; 
             e.hp = e.maxHp; 
             newEnemies.push(e); 
         }
@@ -751,30 +754,35 @@
         
         window.unsubscribeRoom = onSnapshot(roomRef, (snap) => {
             const data = snap.data(); 
-            // Odayı Kapatma Kontrolü (Host oyundan çıkarsa tetiklenir)
+            // ODA KAPATILDI KONTROLÜ (Eğer Host Çıktıysa Odayı Dağıtır)
             if(!data || data.closed) {
                 if (gameMode === 'multi' && !isHost) {
-                    showMsg("Host odayı dağıttı!");
                     fullResetToMenu(true);
+                    showMsg("Host odayı dağıttı!");
                 }
                 return;
             }
             
-            const now = Date.now();
-            if (now - data.lastPing > 8000 && !data.closed) { 
-                isHost = true; 
-                wave = Math.max(1, wave); 
-                document.getElementById('wave-name').innerText=`DALGA ${wave}`; 
-                if (!gameActive || enemies.length === 0) { gems = []; items = []; bullets = []; enemies = []; placedBombs = []; scorches = []; bigBossKills = 0; } 
-                getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'enemies')).then(s => { s.forEach(d => { if(d.data().roomId === currentRoomId) deleteDoc(d.ref).catch(()=>{}); }); }); 
-                setDoc(roomRef, { hostId: currentUser.uid, lastPing: now, wave: wave }, {merge:true}); 
-                setTimeout(() => { if(isHost && enemies.length === 0) spawnWave(); }, 1500); 
-            } 
-            else if (now - data.lastPing > 2500) { isHost = true; setDoc(roomRef, { hostId: currentUser.uid, lastPing: now }, {merge: true}); }
-            else { 
-                isHost = (data.hostId === currentUser.uid); 
-                // Dalgaları Eşitle (Sadece Client isen Host'un dalga verisine uy)
-                if (!isHost && data.wave !== wave) { wave = data.wave; document.getElementById('wave-name').innerText=`DALGA ${wave}`; } 
+            if (!isHost) {
+                window.lastHostPingTimeLocal = Date.now(); // Sadece lokal saat, sapmaları önler.
+                if (data.wave !== wave) { 
+                    wave = data.wave; 
+                    document.getElementById('wave-name').innerText=`DALGA ${wave}`; 
+                }
+            } else {
+                // Sadece Host burayı çalıştırır
+                const now = Date.now();
+                if (now - data.lastPing > 8000 && !data.closed) { 
+                    wave = Math.max(1, wave); 
+                    document.getElementById('wave-name').innerText=`DALGA ${wave}`; 
+                    if (!gameActive || enemies.length === 0) { gems = []; items = []; bullets = []; enemies = []; placedBombs = []; scorches = []; bigBossKills = 0; } 
+                    getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'enemies')).then(s => { s.forEach(d => { if(d.data().roomId === currentRoomId) deleteDoc(d.ref).catch(()=>{}); }); }); 
+                    setDoc(roomRef, { hostId: currentUser.uid, lastPing: now, wave: wave }, {merge:true}); 
+                    setTimeout(() => { if(isHost && enemies.length === 0) spawnWave(); }, 1500); 
+                } 
+                else if (now - data.lastPing > 2500) { 
+                    setDoc(roomRef, { hostId: currentUser.uid, lastPing: now }, {merge: true}); 
+                }
             }
         }, (err)=>console.error(err));
 
@@ -785,7 +793,7 @@
             } 
         }, 1500);
 
-        // ZOMBİLERİN KAYMASINI ENGELLEYEN HOST AI SİSTEMİ
+        // ZOMBİLERİN KAYMASINI ENGELLEYEN HOST AI SİSTEMİ (Otorite sadece Host'tadır)
         if (window.hostBotSync) clearInterval(window.hostBotSync);
         window.hostBotSync = setInterval(() => {
             if (isHost && gameMode === 'multi' && gameActive && currentRoomId) {
@@ -795,7 +803,7 @@
                     }
                 });
             }
-        }, 400); // Bant genişliği için saniyede 2.5 kez
+        }, 100); // 100ms ile çok pürüzsüz Host Otoritesi
     }
 
     function setupEnemySync() {
@@ -818,11 +826,15 @@
                 else if (c.type === 'modified') { 
                     let en = enemies.find(e => e.id === id); 
                     if (en) { 
-                        en.hp = d.hp; // Biri vurunca herkeste can düşer
+                        en.hp = d.hp; // Biri vurunca herkeste can eşzamanlı düşer
                         en.maxHp = d.maxHp || en.maxHp; 
                         if (!isHost) {
                             en.targetX = d.x; 
                             en.targetY = d.y; 
+                        }
+                        // Eğer başkası öldürdüyse lokalde de öldür
+                        if (en.hp <= 0 && enemies.indexOf(en) !== -1) {
+                            killEnemyLocal(en, enemies.indexOf(en));
                         }
                     } 
                 }
@@ -842,9 +854,17 @@
         if(camera.shake>0) camera.shake*=0.9;
         const nowTime = Date.now();
         
-        // OYUNCU SİLİNME HATASI ÇÖZÜMÜ: Sadece Lokal saate güven. Asla başkasını db'den silme, sadece görüntüden kaldır.
+        // BAĞLANTI KOPMA DENETİMİ (Host koptu mu?)
+        if (gameMode === 'multi' && !isHost && window.lastHostPingTimeLocal) {
+            if (nowTime - window.lastHostPingTimeLocal > 12000) { 
+                showMsg("Host bağlantısı koptu!");
+                fullResetToMenu(true);
+            }
+        }
+
+        // OYUNCU SİLİNME HATASI ÇÖZÜMÜ: Sadece Lokal saate güven. 
         for(const pid in otherPlayers) { 
-            if (nowTime - otherPlayers[pid].lastSeenLocal > 6000) { 
+            if (nowTime - otherPlayers[pid].lastSeenLocal > 5000) { 
                 delete otherPlayers[pid]; 
             } 
         }
@@ -858,7 +878,7 @@
             let b = placedBombs[i]; b.timer--; b.anim += 0.3; const p = worldToScreen(b.x, b.y);
             ctx.save(); ctx.translate(p.x, p.y); ctx.scale(1, 0.5); ctx.beginPath(); ctx.arc(0, 0, 5 * (ISO_W/2), 0, Math.PI * 2); ctx.fillStyle = 'rgba(255, 68, 68, 0.2)'; ctx.fill(); ctx.strokeStyle = 'rgba(255, 68, 68, 0.6)'; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
             if (assets.bomb) { ctx.save(); ctx.translate(p.x, p.y - 10); ctx.rotate(b.anim); ctx.drawImage(assets.bomb, -12, -12, 24, 24); ctx.restore(); }
-            if (b.timer <= 0) { camera.shake = 30; scorches.push({x: b.x, y: b.y}); enemies.forEach((en, ei) => { if (Math.sqrt((en.x - b.x)**2 + (en.y - b.y)**2) <= 5) { en.hp -= 400; if (gameMode === 'multi') { const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', en.id); if (en.hp <= 0) { killEnemyLocal(en, ei); if (currentUser) deleteDoc(eRef).catch(()=>{}); } else if (currentUser) updateDoc(eRef, { hp: increment(-400) }).catch(()=>{}); } else { if (en.hp <= 0) killEnemyLocal(en, ei); } } }); placedBombs.splice(i, 1); }
+            if (b.timer <= 0) { camera.shake = 30; scorches.push({x: b.x, y: b.y}); enemies.forEach((en, ei) => { if (Math.sqrt((en.x - b.x)**2 + (en.y - b.y)**2) <= 5) { en.hp -= 400; if (gameMode === 'multi') { const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', en.id); if (en.hp <= 0) { killEnemyLocal(en, ei); if (isHost) deleteDoc(eRef).catch(()=>{}); } else if (currentUser) updateDoc(eRef, { hp: increment(-400) }).catch(()=>{}); } else { if (en.hp <= 0) killEnemyLocal(en, ei); } } }); placedBombs.splice(i, 1); }
         }
         
         let activeBoss = enemies.find(e => e.type === 'boss-head'); let bossBarContainer = document.getElementById('boss-bar-container');
@@ -875,13 +895,13 @@
             // BOT YAPAY ZEKASI
             let allTargets = [player, ...Object.values(otherPlayers)];
             enemies.forEach(e => {
-                // Diğer oyuncularda botlar Host'un emriyle hizalanır
                 if (!isHost && gameMode === 'multi') {
+                    // Hostun koordinatlarına doğru yumuşak kayma yaparak senkronize kalır
                     if (e.targetX !== undefined) e.x += (e.targetX - e.x) * 0.15;
                     if (e.targetY !== undefined) e.y += (e.targetY - e.y) * 0.15;
                 }
 
-                // AI Yalnızca Singleplayer VEYA Multiplayer'da Host ise çalışır
+                // Sadece Host hedefleri hesaplar ve hareket eder
                 if (gameMode === 'single' || (gameMode === 'multi' && isHost)) {
                     let nearest = null; 
                     let minDist = 9999;
@@ -898,7 +918,7 @@
                     } 
                 }
                 
-                // Hasar Alma Lokal İşler
+                // Hasar Alma
                 let distToMe = Math.sqrt((player.x-e.x)**2 + (player.y-e.y)**2);
                 if(distToMe < 0.8 * e.size) { player.hp -= 0.3; } 
             });
@@ -909,9 +929,8 @@
                 if(ammo[player.weapon] <= 0) {
                     startReload();
                 } else {
-                    const now = Date.now(); 
                     const delay = (player.weapon==='AK') ? 140 : 480; 
-                    if(now - (player.lastShot || 0) >= delay) { 
+                    if(nowTime - (player.lastShot || 0) >= delay) { 
                         let target=null, minD=10; 
                         enemies.forEach(en => { 
                             let d=Math.sqrt((en.x-player.x)**2+(en.y-player.y)**2); 
@@ -923,7 +942,7 @@
                             playSound(player.weapon === 'PISTOL' ? 'pistolShoot' : 'akShoot');
                             bullets.push({x:player.x, y:player.y, tx:target.x, ty:target.y, dmg:(player.weapon==='AK'?65:40), life:80}); 
                             player.shT=6; 
-                            player.lastShot=now; 
+                            player.lastShot=nowTime; 
                         } 
                     }
                 }
@@ -940,8 +959,10 @@
                         const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', e.id); 
                         if (e.hp <= 0) { 
                             killEnemyLocal(e, ei); 
-                            if (currentUser) deleteDoc(eRef).catch(()=>{}); 
+                            // Otorite/Silme işlemi çakışmaması için Dökümanı sadece HOST silebilir
+                            if (isHost) deleteDoc(eRef).catch(()=>{}); 
                         } else if (currentUser) {
+                            // Can düşürmeyi herkes DB'ye iletir (Atomic increment ile)
                             updateDoc(eRef, { hp: increment(-b.dmg) }).catch(()=>{}); 
                         }
                     } else { 
@@ -955,7 +976,7 @@
         if(aoeCooldown>0) aoeCooldown--; document.getElementById('aoe-cd-overlay').style.height=(aoeCooldown/MAX_AOE_CD*100)+'%';
         if(bombCooldown>0) bombCooldown--; document.getElementById('bomb-cd-overlay').style.height=(bombCooldown/180*100)+'%';
         
-        // Host Dalga Geçiçi Kontrolü
+        // Sadece Host Yeni Dalga Başlatabilir ve Veritabanına Yazar
         if(enemies.length === 0 && player.hp > 0 && !spawning) { 
             if (gameMode === 'single') { 
                 wave++; spawnWave(); 
@@ -967,7 +988,7 @@
         if (gameActive) requestAnimationFrame(loop);
     }
 
-    function triggerAOE() { if (aoeCooldown <= 0) { camera.shake = 15; enemies.forEach((en, ei) => { if (Math.sqrt((en.x - player.x)**2 + (en.y - player.y)**2) < 8) { en.hp -= 500; if (gameMode === 'multi') { const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', en.id); if (en.hp <= 0) { killEnemyLocal(en, ei); if (currentUser) deleteDoc(eRef).catch(()=>{}); } else if (currentUser) updateDoc(eRef, { hp: increment(-500) }).catch(()=>{}); } else { if (en.hp <= 0) killEnemyLocal(en, ei); } } }); aoeCooldown = MAX_AOE_CD; } }
+    function triggerAOE() { if (aoeCooldown <= 0) { camera.shake = 15; enemies.forEach((en, ei) => { if (Math.sqrt((en.x - player.x)**2 + (en.y - player.y)**2) < 8) { en.hp -= 500; if (gameMode === 'multi') { const eRef = doc(db, 'artifacts', appId, 'public', 'data', 'enemies', en.id); if (en.hp <= 0) { killEnemyLocal(en, ei); if (isHost) deleteDoc(eRef).catch(()=>{}); } else if (currentUser) updateDoc(eRef, { hp: increment(-500) }).catch(()=>{}); } else { if (en.hp <= 0) killEnemyLocal(en, ei); } } }); aoeCooldown = MAX_AOE_CD; } }
 
     function placeBomb() { if (playerBombCount > 0 && bombCooldown <= 0) { playerBombCount--; updateBombUI(); bombCooldown = 180; placedBombs.push({ x: player.x, y: player.y, timer: 180, anim: 0 }); } }
 
@@ -1013,6 +1034,7 @@
     function beginOnlinePlay(forceSpawn=false) {
         hideStatusIndicator();
         if (!gameActive) { gameActive = true; loop(); }
+        // Host ise sadece bir kere düşman yarat
         if (gameMode === 'multi' && forceSpawn && enemies.length === 0 && isHost) {
             wave = Math.max(1, wave);
             document.getElementById('wave-name').innerText = `DALGA ${wave}`;
@@ -1025,11 +1047,8 @@
     window.restartGame = () => {
         if(gameMode === 'multi') {
             gems = []; items = []; bullets = []; placedBombs = []; scorches = [];
-            // Multi'deyken komple çıkmayız, sadece HP ve durumu sıfırlayıp odaya devam ederiz.
-            player.hp = 100;
-            player.dFr = 0;
-            player.x = 0;
-            player.y = 0;
+            // Multi'de sadece kendi durumumuzu yenileriz
+            player.hp = 100; player.dFr = 0; player.x = 0; player.y = 0;
             document.getElementById('game-over').style.display = 'none';
             document.getElementById('boss-bar-container').style.display = 'none';
             if (!gameActive) { gameActive = true; loop(); }
@@ -1054,7 +1073,7 @@
             deleteDoc(pRef).catch(()=>{});
         }
 
-        // Eğer Host çıkıyorsa odayı "Kapalı" olarak işaretle ki diğerleri atılsın
+        // Eğer Host çıkıyorsa odayı "Kapalı" olarak işaretle ki diğerleri de anında atılsın
         if (!isKicked && gameMode === 'multi' && currentRoomId && isHost) {
             const rRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', currentRoomId);
             updateDoc(rRef, { closed: true }).catch(()=>{});
@@ -1069,7 +1088,7 @@
         if (window.unsubscribePlayers) { window.unsubscribePlayers(); window.unsubscribePlayers = null; }
         if (window.unsubscribeEnemies) { window.unsubscribeEnemies(); window.unsubscribeEnemies = null; }
         
-        gameActive = false; isFiring = false; currentRoomId = null; joyInput = {x:0, y:0}; keys = {}; onlineStarted = false; otherPlayers = {}; isHost = false;
+        gameActive = false; isFiring = false; currentRoomId = null; joyInput = {x:0, y:0}; keys = {}; onlineStarted = false; otherPlayers = {}; isHost = false; window.lastHostPingTimeLocal = null;
         document.getElementById('game-over').style.display = 'none';
         document.getElementById('ui-overlay').style.display = 'none';
         document.getElementById('boss-bar-container').style.display = 'none';
@@ -1103,7 +1122,7 @@
         }
         
         if (syncIntervalId) clearInterval(syncIntervalId);
-        syncIntervalId = setInterval(syncOnline, 250); 
+        syncIntervalId = setInterval(syncOnline, 150); 
         syncOnline();
         
         const col = collection(db, 'artifacts', appId, 'public', 'data', 'players');
@@ -1120,7 +1139,7 @@
                 else {
                     if(!otherPlayers[id]) otherPlayers[id] = new Character(d.x, d.y, false, 'remote', id);
                     otherPlayers[id].remoteData = d;
-                    // Clock Skew: Veri geldiği an lokal saati yenileriz, erken silinmeyi engelleriz.
+                    // CLOCK SKEW ÇÖZÜMÜ: Karşı tarafın değil, kendi bilgisayarımızın anlık saati
                     otherPlayers[id].lastSeenLocal = Date.now(); 
                 }
             });
@@ -1224,7 +1243,7 @@
         const code = Math.random().toString(36).substring(2,7).toUpperCase();
         const newRoomId = 'room_' + Date.now() + '_' + Math.floor(Math.random()*1000);
         
-        const roomData = { name: playerName + "'s Room", hostId: currentUser.uid, maxPlayers: maxP, isPrivate: isPriv, code: code, playerCount: 1, lastPing: Date.now(), wave: 1 };
+        const roomData = { name: playerName + "'s Room", hostId: currentUser.uid, maxPlayers: maxP, isPrivate: isPriv, code: code, playerCount: 1, lastPing: Date.now(), wave: 1, closed: false };
         
         document.getElementById('create-room-screen').style.display='none';
         
